@@ -33,7 +33,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="VKB-cg-ifr">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zKc-9K-hzt"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zKc-9K-hzt">
+                            <connections>
+                                <action selector="addItem:" destination="bxZ-or-OxS" id="Syp-QH-OjL"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lbz-x5-tgr" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -47,5 +47,28 @@ let Default = UserDefaults.standard
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
         }
+
+    @IBAction func addItem(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+        let newItem = Item()
+        let alert = UIAlertController(title: "Add new toDoList Item", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "add item", style: .default){(action) in
+            newItem.title = textField.text!
+            self.itemArray.append(newItem)
+           print(textField.text)
+            self.tableView.reloadData()
+            
+        }
+        alert.addTextField{(alertTextField) in
+            alertTextField.placeholder = "Add item"
+            textField = alertTextField
+            
+            print("Now")
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+
 }
+
 
