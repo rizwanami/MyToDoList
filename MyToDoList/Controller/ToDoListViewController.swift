@@ -11,20 +11,11 @@ import UIKit
 class ToDoListViewController : UITableViewController {
 var itemArray = [Item]()
 let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Item.plist")
     override func viewDidLoad() {
         super.viewDidLoad()
-        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        let newitem = Item()
-        print(dataFilePath)
-        newitem.title = "call Zakia"
-        newitem.done = true
-        itemArray.append(newitem)
-        let newitem1 = Item()
-        newitem1.title = "call Hamza"
-        itemArray.append(newitem1)
-        let newitem2 = Item()
-        newitem2.title = "buy olives"
-        itemArray.append(newitem2)
+        
+        loadData()
         
 //        if let item = defaults.array(forKey: "ToDolistItem") as? [String] {
 //            itemArray = item
@@ -54,6 +45,7 @@ let defaults = UserDefaults.standard
 //
 //            }
             // Configure the cell...
+            saveItem()
             print("cell for index path is called")
             return cell
         }
@@ -61,8 +53,9 @@ let defaults = UserDefaults.standard
         if itemArray[indexPath.row].done == false {
             itemArray[indexPath.row].done = true
         } else {
-            itemArray[indexPath.row].done = true
+            itemArray[indexPath.row].done = false
         }
+        
        tableView.reloadData()
         
        // So because of this method  when user  selected the row it flashes gray briefly but then it goes back to being de-selected and goes back to being white which looks a lot nicer in terms of user interface.
@@ -77,6 +70,8 @@ let defaults = UserDefaults.standard
         let action = UIAlertAction(title: "add item", style: .default){(action) in
             newItem.title = textField.text!
             self.itemArray.append(newItem)
+            self.saveItem()
+            
            //self.defaults.set(self.itemArray, forKey: "ToDolistItem") as! [Item]
             self.tableView.reloadData()
             
@@ -89,6 +84,27 @@ let defaults = UserDefaults.standard
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+    }
+    
+    func saveItem() {
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to : dataFilePath!)
+        } catch {
+            print("error encoding data: \(error)")
+        }
+    }
+    
+    func loadData() {
+        if  let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+            itemArray = try decoder.decode([Item].self, from: data)
+            } catch {
+               print("error during decoding is \(error)")
+            }
+        }
     }
 
 }
