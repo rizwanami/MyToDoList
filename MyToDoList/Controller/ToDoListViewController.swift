@@ -10,11 +10,14 @@ import UIKit
 
 class ToDoListViewController : UITableViewController {
 var itemArray = [Item]()
-let Default = UserDefaults.standard
+let defaults = UserDefaults.standard
     override func viewDidLoad() {
         super.viewDidLoad()
+        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         let newitem = Item()
+        print(dataFilePath)
         newitem.title = "call Zakia"
+        newitem.done = true
         itemArray.append(newitem)
         let newitem1 = Item()
         newitem1.title = "call Hamza"
@@ -22,6 +25,10 @@ let Default = UserDefaults.standard
         let newitem2 = Item()
         newitem2.title = "buy olives"
         itemArray.append(newitem2)
+        
+//        if let item = defaults.array(forKey: "ToDolistItem") as? [String] {
+//            itemArray = item
+//        }
         
     
         // Do any additional setup after loading the view, typically from a nib.
@@ -34,18 +41,33 @@ let Default = UserDefaults.standard
     
         override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoListCell", for: indexPath)
-            cell.textLabel?.text = itemArray[indexPath.row].title
+            let item = itemArray[indexPath.row]
+            cell.textLabel?.text = item.title
+            // use trenary opertaor for below 5 line expression to change in to one line expression
+            // value = condition ? valueIfTrue : valueIfFalse
+            cell.accessoryType = item.done ? .checkmark : .none
+            // or  cell.accessoryType = item.done == true ? .checkmark : .none
+//            if item.done == true {
+//                cell.accessoryType = .checkmark
+//            } else {
+//               cell.accessoryType = .none
+//
+//            }
             // Configure the cell...
-            
+            print("cell for index path is called")
             return cell
         }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if  tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        if itemArray[indexPath.row].done == false {
+            itemArray[indexPath.row].done = true
         } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            itemArray[indexPath.row].done = true
         }
+       tableView.reloadData()
+        
+       // So because of this method  when user  selected the row it flashes gray briefly but then it goes back to being de-selected and goes back to being white which looks a lot nicer in terms of user interface.
+        
+        tableView.deselectRow(at: indexPath, animated: true)
         }
 
     @IBAction func addItem(_ sender: UIBarButtonItem) {
@@ -55,7 +77,7 @@ let Default = UserDefaults.standard
         let action = UIAlertAction(title: "add item", style: .default){(action) in
             newItem.title = textField.text!
             self.itemArray.append(newItem)
-           print(textField.text)
+           //self.defaults.set(self.itemArray, forKey: "ToDolistItem") as! [Item]
             self.tableView.reloadData()
             
         }
