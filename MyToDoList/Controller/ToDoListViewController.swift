@@ -118,9 +118,15 @@ let defaults = UserDefaults.standard
             print("error encoding data: \(error)")
         }
     }
-    func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest()){
-        let predicate = NSPredicate(format: "parentCatogeries.name Matches %@", (selectedCategory!.name!))
-        request.predicate = predicate
+    func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
+        
+        let categoryPredicate = NSPredicate(format: "parentCatogeries.name Matches %@", (selectedCategory!.name!))
+        if let additionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates : [categoryPredicate, additionalPredicate])
+        }else {
+        
+        request.predicate = categoryPredicate
+    }
         do {
           itemArray = try context.fetch(request)
         } catch {
@@ -135,13 +141,13 @@ let defaults = UserDefaults.standard
 extension ToDoListViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request : NSFetchRequest<Item> = Item.fetchRequest()
-        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        let searchPredicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         
          request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         
-        loadItems(with : request)
+        loadItems(with : request, predicate: searchPredicate)
         
-//
+
 //        do {
 //            itemArray = try context.fetch(request)
 //        } catch {

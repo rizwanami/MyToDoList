@@ -410,8 +410,89 @@ This var we have in ListViewController: It is an  optional But once I do set tha
 \cb9 on the request to this new predicate then the ones that we set before say for example in our search\cb1  \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 bar is not going to be valid anymore and it's going to be overwritten and you can see this if we run \cf18 \cb9 \expnd0\expndtw0\kerning0
 \outl0\strokewidth0 \strokec18 So if we hit shopping list we do in fact go into an empty list because we haven't yet created any new\cb1 \
 \cb9 items that have the parent category as shopping list.\cb1  \cb9 But if we add a few items and we now try to search these items you can see that our search fails and\cb1  \cb9 all we get are just the same items but now they're sorted in alphabetical order.\cb1  \cb9 And the reason is because when we press the search button we create a request.\cb1 \
-\cb9 5) Solve The Two different Predicate Problem\cf23 \cb1 \ul \ulc23 \strokec23 \
-\cf0 \kerning1\expnd0\expndtw0 \ulnone \outl0\strokewidth0 \
+\cb9 5) Solve The Two different Predicate Problem\
+a) we added another parameter in \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl\strokewidth60 \strokec0 loadItem\cf18 \cb9 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec18  \
+\pard\tx840\pardeftab840\pardirnatural\partightenfactor0
+
+\f1\fs34 \cf3 \cb4 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 func\cf5  loadItems(with request : \cf6 NSFetchRequest\cf5 <\cf13 \cb4 Item\cf5 \cb4 > = \cf13 \cb4 Item\cf5 \cb4 .\cf20 \cb4 fetchRequest\cf5 \cb4 (), predicate: \cf6 NSPredicate)\{\
+\}\
+b) Then we added the parameter in loadItem when we used it in the searchBar \
+\cf3 func\cf5  searchBarSearchButtonClicked(\cf3 _\cf5  searchBar: \cf6 UISearchBar\cf5 ) \{
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         \cf3 let\cf5  request : \cf6 NSFetchRequest\cf5 <\cf13 \cb4 Item\cf5 \cb4 > = \cf13 \cb4 Item\cf5 \cb4 .\cf20 \cb4 fetchRequest\cf5 \cb4 ()
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         \cf3 let\cf5  predicate = \cf6 NSPredicate\cf5 (format: \cf7 \cb4 "title CONTAINS[cd] %@"\cf5 \cb4 , searchBar.\cf12 \cb4 text\cf5 \cb4 !)
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4          request.\cf12 \cb4 sortDescriptors\cf5 \cb4  = [\cf6 NSSortDescriptor\cf5 (key: \cf7 \cb4 "title"\cf5 \cb4 , ascending: \cf3 true\cf5 )]
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         \cf20 \cb4 loadItems\cf5 \cb4 (with : request, predicate: predicate)\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf5 c) Then in \cf0 \cb1 \outl\strokewidth60 \strokec0 loadItem \outl0\strokewidth0 we added NSCompoundPredicate 
+\f2\fs30 \cf18 \cb9 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec18 \
+\pard\tx840\pardeftab840\pardirnatural\partightenfactor0
+
+\f1\fs34 \cf5 \cb4 \kerning1\expnd0\expndtw0 \outl0\strokewidth0  \cf3 func\cf5  loadItems(with request : \cf6 NSFetchRequest\cf5 <\cf13 \cb4 Item\cf5 \cb4 > = \cf13 \cb4 Item\cf5 \cb4 .\cf20 \cb4 fetchRequest\cf5 \cb4 (), predicate: \cf6 NSPredicate\cf5 ?)\{
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         \cf3 let\cf5  categoryPredicate = \cf6 NSPredicate\cf5 (format: \cf7 \cb4 "parentCatogeries.name Matches %@"\cf5 \cb4 , (\cf14 \cb4 selectedCategory\cf5 \cb4 !.\cf14 \cb4 name\cf5 \cb4 !))
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         \cf3 let\cf5  compoundPredicate = \cf6 NSCompoundPredicate\cf5 (andPredicateWithSubpredicates : [categoryPredicate, predicate!])
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         request.\cf12 \cb4 predicate\cf5 \cb4  = compoundPredicate
+\f2\fs30 \cf23 \cb1 \expnd0\expndtw0\kerning0
+\ul \ulc23 \outl0\strokewidth0 \strokec23 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \kerning1\expnd0\expndtw0 \ulnone \outl0\strokewidth0 d) then we also made the parameter \outl\strokewidth60 predicate = nil \outl0\strokewidth0 in \outl\strokewidth60 loadItem\
+\pard\tx840\pardeftab840\pardirnatural\partightenfactor0
+
+\f1\fs34 \cf3 \cb4 \outl0\strokewidth0 func\cf5  loadItems(with request : \cf6 NSFetchRequest\cf5 <\cf13 \cb4 Item\cf5 \cb4 > = \cf13 \cb4 Item\cf5 \cb4 .\cf20 \cb4 fetchRequest\cf5 \cb4 (), predicate: \cf6 NSPredicate\cf5 ? = \cf3 nil\cf5 )\{
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4 e) we were getting error that preicate is nil so we use optional binding to safly unwraaped it.\
+\cf3 func\cf5  loadItems(with request : \cf6 NSFetchRequest\cf5 <\cf13 \cb4 Item\cf5 \cb4 > = \cf13 \cb4 Item\cf5 \cb4 .\cf20 \cb4 fetchRequest\cf5 \cb4 (), predicate: \cf6 NSPredicate\cf5 ? = \cf3 nil\cf5 )\{
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         \cf3 let\cf5  categoryPredicate = \cf6 NSPredicate\cf5 (format: \cf7 \cb4 "parentCatogeries.name Matches %@"\cf5 \cb4 , (\cf14 \cb4 selectedCategory\cf5 \cb4 !.\cf14 \cb4 name\cf5 \cb4 !))
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         \cf3 if\cf5  \cf3 let\cf5  additionalPredicate = predicate \{
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4             request.\cf12 \cb4 predicate\cf5 \cb4  = \cf6 NSCompoundPredicate\cf5 (andPredicateWithSubpredicates : [categoryPredicate, additionalPredicate])
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         \}
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         
+\f0\fs24 \cf0 \cb4 \
+
+\f1\fs34 \cf5 \cb4         request.\cf12 \cb4 predicate\cf5 \cb4  = categoryPredicate       
+\f2\fs30 \cf0 \cb1 \
 \pard\pardeftab720\sl500\sa210\partightenfactor0
 \cf8 \expnd0\expndtw0\kerning0
 \
