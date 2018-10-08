@@ -50,6 +50,29 @@ loadItems()
             destinationVC.selectedCategory = categoryArray[indexPath.row]
         }
     }
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            // delete item at indexPath
+            self.context.delete(self.categoryArray[indexPath.row])
+            self.categoryArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.saveItem()
+            
+            
+        }
+        
+        let share = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
+            // share item at indexPath
+            print("I want to share: \(self.categoryArray[indexPath.row])")
+        }
+        
+        share.backgroundColor = UIColor.lightGray
+        
+        return [delete, share]
+        
+    }
+    
     
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
