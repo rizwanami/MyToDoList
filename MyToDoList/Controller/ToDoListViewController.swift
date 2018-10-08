@@ -8,11 +8,16 @@
 
 import UIKit
 import CoreData
+import Foundation
 
 class ToDoListViewController : UITableViewController {
     
-   
+var date = Date()
 let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    //let date = Date()
+    
+    
+    //Item.setValue(date.format(), forKey: "date")
 var itemArray = [Item]()
     // here we created a property which hold the categaries it is nil untill we can set it we will open an Bracket and after the selected categaory variable and and I can use a special keyword code did set and everything that's between these curly braces is going to happen as soon as selected category gets set with a value. This perfect place to call loadItem and also we can delete it from viewdid load
     
@@ -23,9 +28,9 @@ var itemArray = [Item]()
         didSet{
            loadItems()
         }
-    }
-let defaults = UserDefaults.standard
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Item.plist")
+ }
+//let defaults = UserDefaults.standard
+//    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Item.plist")
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -91,19 +96,25 @@ let defaults = UserDefaults.standard
         let action = UIAlertAction(title: "add item", style: .default){(action) in
             newItem.title = textField.text!
             newItem.done = false
+            newItem.creationDate = Date()
+            
+            newItem.setValue(self.date, forKey: "creationDate")
+            
             newItem.parentCatogeries = self.selectedCategory
             self.itemArray.append(newItem)
             self.saveItem()
             
            //self.defaults.set(self.itemArray, forKey: "ToDolistItem") as! [Item]
-            self.tableView.reloadData()
+           self.tableView.reloadData()
             
+             print("The date user enter the item is \(String(describing: newItem.creationDate))")
         }
+        print("The date user enter the item is \(String(describing: newItem.creationDate))")
         alert.addTextField{(alertTextField) in
             alertTextField.placeholder = "Add item"
             textField = alertTextField
             
-            print("Now")
+           
         }
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
@@ -136,6 +147,32 @@ let defaults = UserDefaults.standard
     }
     
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            // delete item at indexPath
+            self.context.delete(self.itemArray[indexPath.row])
+            self.itemArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.saveItem()
+            
+            
+        }
+        
+      
+        
+        let share = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
+            // share item at indexPath
+            print("I want to share: \(self.itemArray[indexPath.row])")
+        }
+        
+        share.backgroundColor = UIColor.lightGray
+    
+        return [delete, share]
+        
+    }
+    
+    
 }
 // Mark: - SerchBar Method
 extension ToDoListViewController : UISearchBarDelegate {
@@ -143,7 +180,7 @@ extension ToDoListViewController : UISearchBarDelegate {
         let request : NSFetchRequest<Item> = Item.fetchRequest()
         let searchPredicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         
-         request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+         request.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         
         loadItems(with : request, predicate: searchPredicate)
         
@@ -155,10 +192,12 @@ extension ToDoListViewController : UISearchBarDelegate {
 //        }
        tableView.reloadData()
     }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text?.count == 0 {
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
+                self.loadItems()
             }
             
         }
