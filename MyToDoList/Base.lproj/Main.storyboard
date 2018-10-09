@@ -78,6 +78,9 @@
                             <outlet property="delegate" destination="bxZ-or-OxS" id="mDd-7Z-mos"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="share" id="6Hb-bQ-nGe"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Items" id="VKB-cg-ifr">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="zKc-9K-hzt">
                             <connections>
@@ -85,13 +88,14 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchBar" destination="3s3-CQ-4mh" id="N1Y-rN-Sg0"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lbz-x5-tgr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1775" y="-351"/>
+            <point key="canvasLocation" x="943" y="-368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="OaO-mG-b6J">
@@ -113,4 +117,5 @@
             <point key="canvasLocation" x="448.80000000000001" y="-337.78110944527737"/>
         </scene>
     </scenes>
+    <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
 </document>

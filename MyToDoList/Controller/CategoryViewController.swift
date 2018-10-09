@@ -5,34 +5,21 @@
 //  Created by Mohammed Ibrahim on 9/26/18.
 //  Copyright © 2018 myw. All rights reserved.
 //
-
 import UIKit
 import CoreData
 import ChameleonFramework
 
 class CategoryViewController: UITableViewController {
-    // we are getting the context from app delegate
-   let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    // create an object which have hold Ctaogry entity
-  
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryArray = [Catogries]()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
-loadItems()
-       
+        loadItems()
     }
-
     
-
-    // MARK: - Table view data source
-
-   
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return categoryArray.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,7 +28,7 @@ loadItems()
         let category = categoryArray[indexPath.row]
         cell.textLabel?.text = category.name
         cell.backgroundColor = UIColor(hexString: categoryArray[indexPath.row].hexColor ?? "1D9BF6")
-       
+        
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -108,6 +95,7 @@ loadItems()
             print("error encoding data: \(error)")
         }
     }
+    
     func loadItems(with request : NSFetchRequest<Catogries> = Catogries.fetchRequest()){
         
         do {
@@ -116,5 +104,6 @@ loadItems()
             print("There is an error in fetchin request\(error)")
         }
     }
-        
+    
 }
+
