@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import ChameleonFramework
 
 class CategoryViewController: UITableViewController {
     // we are getting the context from app delegate
@@ -19,6 +20,7 @@ class CategoryViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.separatorStyle = .none
 loadItems()
        
     }
@@ -38,6 +40,7 @@ loadItems()
         let cell = tableView.dequeueReusableCell(withIdentifier: "catogriesCell", for: indexPath)
         let category = categoryArray[indexPath.row]
         cell.textLabel?.text = category.name
+        cell.backgroundColor = UIColor(hexString: categoryArray[indexPath.row].hexColor ?? "1D9BF6")
        
         return cell
     }
@@ -81,7 +84,9 @@ loadItems()
         let action = UIAlertAction(title: "add Category", style: .default){(action) in
             let newCategory = Catogries(context: self.context)
             newCategory.name = textField.text!
+            newCategory.hexColor = UIColor.randomFlat().hexValue()
             self.categoryArray.append(newCategory)
+            
             self.saveItem()
             self.tableView.reloadData()
         }
