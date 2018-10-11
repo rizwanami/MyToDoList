@@ -90,6 +90,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="memeTable" destination="UZt-cq-yNw" id="42q-N3-s2X"/>
                         <outlet property="searchBar" destination="3s3-CQ-4mh" id="N1Y-rN-Sg0"/>
                     </connections>
                 </tableViewController>

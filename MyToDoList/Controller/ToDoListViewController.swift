@@ -12,10 +12,15 @@ import ChameleonFramework
 
 class ToDoListViewController : UITableViewController {
     
+    @IBOutlet var memeTable: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    var titleText = [String]()
     var date = Date()
     var hexcolor = ""
-    
+//    struct MemeMeObject {
+//       var meme = ""
+//        let memedImage :UIImage!
+//    }
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var itemArray = [Item]()
     
@@ -27,22 +32,27 @@ class ToDoListViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+         //print("Theis my Item array ==============\(self.itemArray)")
         loadItems()
     }
     override func viewWillLayoutSubviews() {
         
         navigationController?.navigationBar.topItem?.title = selectedCategory?.name ?? "Item"
+         //print("Theis my Item array ==============\(self.itemArray)")
+   convertToJSONArray(moArray: itemArray)
+        //print("This global Variable for title \(titleText)")
         
     }
     override func viewWillAppear(_ animated: Bool) {
         updateNavigationController(withString: hexcolor)
         
+       // convertToJSONArray(moArray: itemArray)
         
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
+       
         
         updateNavigationController(withString: "04AEFF")
     }
@@ -60,6 +70,35 @@ class ToDoListViewController : UITableViewController {
         }
     }
     
+    func UpdateNavigationButton(){
+        let shareButton = UIButton(type: .system)
+        //shareButton.setImage(, for: .normal)
+    }
+    func convertToJSONArray(moArray: [NSManagedObject]) -> Any {
+        var jsonArray: [[String: Any]] = []
+        for item in moArray {
+            var dict: [String: Any] = [:]
+            for attribute in item.entity.attributesByName {
+                //check if value is present, then add key to dictionary so as to avoid the nil value crash
+                if let value = item.value(forKey: attribute.key) {
+                    dict[attribute.key] = value
+                }
+            }
+            jsonArray.append(dict)
+        }
+        //print("This the array \(jsonArray)")
+        for dic in jsonArray{
+            guard let title = dic["title"] as? String else { fatalError("Unable To parse jsonArray") }
+            //Output
+            //print("This is the text from title \(title)")
+            titleText.append(title)
+           
+        }
+    print("This global Variable for title \(titleText)")
+       // print("This is my \(jsonArray)")
+        return jsonArray
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -123,12 +162,12 @@ class ToDoListViewController : UITableViewController {
             
             newItem.parentCatogeries = self.selectedCategory
             self.itemArray.append(newItem)
+            
             self.saveItem()
             
             
             self.tableView.reloadData()
-            
-            print("The date user enter the item is \(String(describing: newItem.creationDate))")
+        
         }
         print("The date user enter the item is \(String(describing: newItem.creationDate))")
         alert.addTextField{(alertTextField) in
@@ -166,6 +205,7 @@ class ToDoListViewController : UITableViewController {
             print("There is an error in fetchin request\(error)")
         }
         tableView.reloadData()
+        
     }
 }
 // Mark: - SerchBar Method
@@ -187,3 +227,20 @@ extension ToDoListViewController : UISearchBarDelegate {
         }
     }
 }
+
+
+//    func save() {
+//        let meme = MemeMeObject(meme: memeTable.textInputContextIdentifier ?? "No List", memedImage:self.generateMemeImage())
+//
+//    }
+
+//    func generateMemeImage()->UIImage {
+//        var tableText = memeTable.textInputContextIdentifier
+//       // BottomToolBar.hidden = true
+//        UIGraphicsBeginImageContext(self.view.frame.size)4
+//        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+//        let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+//        UIGraphicsEndImageContext()
+//        //BottomToolBar.hidden = false
+//        return memedImage
+//    }
