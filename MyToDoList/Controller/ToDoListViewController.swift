@@ -11,7 +11,7 @@ import CoreData
 import ChameleonFramework
 
 class ToDoListViewController : UITableViewController {
-    
+    var share1 = UIImage(named: "share")
     @IBOutlet var memeTable: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     var titleText = [String]()
@@ -72,7 +72,10 @@ class ToDoListViewController : UITableViewController {
     
     func UpdateNavigationButton(){
         let shareButton = UIButton(type: .system)
-        //shareButton.setImage(, for: .normal)
+        shareButton.setImage(share1?.withRenderingMode(.alwaysOriginal), for: .normal)
+        shareButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        navigationItem.rightBarButtonItem = shareButton
+    
     }
     func convertToJSONArray(moArray: [NSManagedObject]) -> Any {
         var jsonArray: [[String: Any]] = []
