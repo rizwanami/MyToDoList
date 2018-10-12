@@ -11,19 +11,13 @@ import CoreData
 import ChameleonFramework
 
 class ToDoListViewController : UITableViewController {
-    var share1 = UIImage(named: "share")
-    @IBOutlet var memeTable: UITableView!
+    
+    
     @IBOutlet weak var searchBar: UISearchBar!
-    var titleText = [String]()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var date = Date()
     var hexcolor = ""
-//    struct MemeMeObject {
-//       var meme = ""
-//        let memedImage :UIImage!
-//    }
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var itemArray = [Item]()
-    
     var selectedCategory : Catogries? {
         didSet{
             loadItems()
@@ -32,14 +26,18 @@ class ToDoListViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-         //print("Theis my Item array ==============\(self.itemArray)")
+        let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+        navigationItem.rightBarButtonItems = [add, share]
         loadItems()
     }
     override func viewWillLayoutSubviews() {
         
         navigationController?.navigationBar.topItem?.title = selectedCategory?.name ?? "Item"
+        
+        
          //print("Theis my Item array ==============\(self.itemArray)")
-   convertToJSONArray(moArray: itemArray)
+        //convertToJSONArray(moArray: itemArray)
         //print("This global Variable for title \(titleText)")
         
     }
@@ -56,6 +54,53 @@ class ToDoListViewController : UITableViewController {
         
         updateNavigationController(withString: "04AEFF")
     }
+    @objc func shareTapped(){
+        
+        let activityVC = UIActivityViewController(
+            activityItems: ["Look at the list.", convertToJSONArray(moArray: itemArray)],
+            applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        
+        present(activityVC, animated: true, completion: nil)
+        
+    }
+    @objc func addTapped(){
+        var textField = UITextField()
+        let newItem = Item(context: self.context)
+        let alert = UIAlertController(title: "Add new toDoList Item", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "add item", style: .default){(action) in
+            newItem.title = textField.text!
+            newItem.done = false
+            newItem.creationDate = Date()
+            
+            newItem.setValue(self.date, forKey: "creationDate")
+            
+            newItem.parentCatogeries = self.selectedCategory
+            self.itemArray.append(newItem)
+            
+            self.saveItem()
+            
+            
+            self.tableView.reloadData()
+            
+        }
+        print("The date user enter the item is \(String(describing: newItem.creationDate))")
+        alert.addTextField{(alertTextField) in
+            alertTextField.placeholder = "Add item"
+            textField = alertTextField
+            
+            
+        }
+        alert.addAction(action)
+        // Create Cancel button
+        let cancelAction = UIAlertAction(title: "No!", style: .cancel) { (action:UIAlertAction!) in
+            print("Cancel button tapped");
+        }
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
     func updateNavigationController(withString  hexyString : String){
         guard let navBar = navigationController?.navigationBar  else{
             fatalError("There is no Navigation bar ")
@@ -63,21 +108,15 @@ class ToDoListViewController : UITableViewController {
         }
         if let color =  UIColor(hexString: hexyString ) {
             navBar.barTintColor = color
-            navBar.tintColor = ContrastColorOf(backgroundColor: color, returnFlat: true)
-            navBar.largeTitleTextAttributes =  [NSAttributedStringKey.foregroundColor: ContrastColorOf(backgroundColor: color, returnFlat: true)]
+            navBar.tintColor = ContrastColorOf(color, returnFlat: true)
+            navBar.largeTitleTextAttributes =  [NSAttributedStringKey.foregroundColor: ContrastColorOf(color, returnFlat: true)]
             searchBar.barTintColor = color
             
         }
     }
     
-    func UpdateNavigationButton(){
-        let shareButton = UIButton(type: .system)
-        shareButton.setImage(share1?.withRenderingMode(.alwaysOriginal), for: .normal)
-        shareButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        navigationItem.rightBarButtonItem = shareButton
-    
-    }
     func convertToJSONArray(moArray: [NSManagedObject]) -> Any {
+        var titleText = [String]()
         var jsonArray: [[String: Any]] = []
         for item in moArray {
             var dict: [String: Any] = [:]
@@ -112,7 +151,7 @@ class ToDoListViewController : UITableViewController {
         if  let color  = UIColor(hexString: hexcolor)?.darken(byPercentage: CGFloat(indexPath.row) / ( CGFloat(itemArray.count) * (1.6))) {
             cell.textLabel?.text = item.title
             cell.backgroundColor = color
-            cell.textLabel?.textColor = ContrastColorOf(backgroundColor: color, returnFlat: true)
+            cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
             cell.textLabel?.text = item.title
             cell.accessoryType = item.done ? .checkmark : .none
             saveItem()
@@ -137,54 +176,16 @@ class ToDoListViewController : UITableViewController {
             
             
         }
-        
-        
-        
         let share = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
             // share item at indexPath
             print("I want to share: \(self.itemArray[indexPath.row])")
         }
-        
         share.backgroundColor = UIColor.lightGray
-        
         return [delete, share]
         
     }
-    
-    
-    @IBAction func addItem(_ sender: UIBarButtonItem) {
-        var textField = UITextField()
-        let newItem = Item(context: self.context)
-        let alert = UIAlertController(title: "Add new toDoList Item", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "add item", style: .default){(action) in
-            newItem.title = textField.text!
-            newItem.done = false
-            newItem.creationDate = Date()
-            
-            newItem.setValue(self.date, forKey: "creationDate")
-            
-            newItem.parentCatogeries = self.selectedCategory
-            self.itemArray.append(newItem)
-            
-            self.saveItem()
-            
-            
-            self.tableView.reloadData()
-        
-        }
-        print("The date user enter the item is \(String(describing: newItem.creationDate))")
-        alert.addTextField{(alertTextField) in
-            alertTextField.placeholder = "Add item"
-            textField = alertTextField
-            
-            
-        }
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func saveItem() {
-        
+   
+ func saveItem() {
         do {
             
             try context.save()
@@ -232,18 +233,8 @@ extension ToDoListViewController : UISearchBarDelegate {
 }
 
 
-//    func save() {
-//        let meme = MemeMeObject(meme: memeTable.textInputContextIdentifier ?? "No List", memedImage:self.generateMemeImage())
-//
-//    }
 
-//    func generateMemeImage()->UIImage {
-//        var tableText = memeTable.textInputContextIdentifier
-//       // BottomToolBar.hidden = true
-//        UIGraphicsBeginImageContext(self.view.frame.size)4
-//        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
-//        let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-//        //BottomToolBar.hidden = false
-//        return memedImage
-//    }
+// override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//self.view.endEditing(true)
+//resignFirstResponder()
+//}

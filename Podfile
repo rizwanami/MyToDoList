@@ -6,5 +6,5 @@ target 'MyToDoList' do
   use_frameworks!
 
   # Pods for MyToDoList
-pod 'ChameleonFramework/Swift'
+pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
 end

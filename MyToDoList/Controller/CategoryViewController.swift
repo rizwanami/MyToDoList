@@ -68,28 +68,34 @@ class CategoryViewController: UITableViewController {
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add new Category", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "add Category", style: .default){(action) in
+        let action = UIAlertAction(title: "add Category", style: .default) {(action) in
             let newCategory = Catogries(context: self.context)
             newCategory.name = textField.text!
-            newCategory.hexColor = UIColor.randomFlat().hexValue()
+            newCategory.hexColor = UIColor.randomFlat.hexValue()
             self.categoryArray.append(newCategory)
             
             self.saveItem()
             self.tableView.reloadData()
         }
+        
         alert.addTextField{(alertTextField) in
             alertTextField.placeholder = "add Category"
             textField = alertTextField
             
         }
         alert.addAction(action)
+        
+        
+        // Create Cancel button
+        let cancelAction = UIAlertAction(title: "No!", style: .cancel) { (action:UIAlertAction!) in
+            print("Cancel button tapped");
+        }
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
     
     func saveItem() {
-        
         do {
-            
             try context.save()
         } catch {
             print("error encoding data: \(error)")
@@ -97,7 +103,6 @@ class CategoryViewController: UITableViewController {
     }
     
     func loadItems(with request : NSFetchRequest<Catogries> = Catogries.fetchRequest()){
-        
         do {
             categoryArray = try context.fetch(request)
         } catch {
