@@ -18,6 +18,7 @@ class ToDoListViewController : UITableViewController {
     var date = Date()
     var hexcolor = ""
     var itemArray = [Item]()
+    
     var selectedCategory : Catogries? {
         didSet{
             loadItems()
@@ -36,29 +37,46 @@ class ToDoListViewController : UITableViewController {
         navigationController?.navigationBar.topItem?.title = selectedCategory?.name ?? "Item"
         
         
-         //print("Theis my Item array ==============\(self.itemArray)")
-        //convertToJSONArray(moArray: itemArray)
-        //print("This global Variable for title \(titleText)")
+        
         
     }
     override func viewWillAppear(_ animated: Bool) {
         updateNavigationController(withString: hexcolor)
-        
-       // convertToJSONArray(moArray: itemArray)
-        
-        
-    }
+
+}
     
     override func viewWillDisappear(_ animated: Bool) {
        
         
-        updateNavigationController(withString: "04AEFF")
+        updateNavigationController(withString: "FFFDDB")
     }
     @objc func shareTapped(){
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        var arrTaskList = [String]()
+        
+        arrTaskList.append("Shared from SimpleList")
+        arrTaskList.append(selectedCategory?.name ?? "-")
+        
+        do {
+            let tasks = try context.fetch(request)
+            for task in tasks {
+                //title = task.title ?? "no title")
+                arrTaskList.append(task.title ?? "no title")
+    
+                print("The array list \(arrTaskList)")
+                print("The list of title \(task.title ?? "no title")")
+                
+            }
+ 
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        //print("This my list in shared \(arrTaskList)")
         
         let activityVC = UIActivityViewController(
-            activityItems: ["Look at the list.", convertToJSONArray(moArray: itemArray)],
+            activityItems: arrTaskList,
             applicationActivities: nil)
+        
         activityVC.popoverPresentationController?.sourceView = self.view
         
         present(activityVC, animated: true, completion: nil)
@@ -71,6 +89,7 @@ class ToDoListViewController : UITableViewController {
         let action = UIAlertAction(title: "add item", style: .default){(action) in
             newItem.title = textField.text!
             newItem.done = false
+            
             newItem.creationDate = Date()
             
             newItem.setValue(self.date, forKey: "creationDate")
@@ -115,32 +134,7 @@ class ToDoListViewController : UITableViewController {
         }
     }
     
-    func convertToJSONArray(moArray: [NSManagedObject]) -> Any {
-        var titleText = [String]()
-        var jsonArray: [[String: Any]] = []
-        for item in moArray {
-            var dict: [String: Any] = [:]
-            for attribute in item.entity.attributesByName {
-                //check if value is present, then add key to dictionary so as to avoid the nil value crash
-                if let value = item.value(forKey: attribute.key) {
-                    dict[attribute.key] = value
-                }
-            }
-            jsonArray.append(dict)
-        }
-        //print("This the array \(jsonArray)")
-        for dic in jsonArray{
-            guard let title = dic["title"] as? String else { fatalError("Unable To parse jsonArray") }
-            //Output
-            //print("This is the text from title \(title)")
-            titleText.append(title)
-           
-        }
-    print("This global Variable for title \(titleText)")
-       // print("This is my \(jsonArray)")
-        return jsonArray
-    }
-
+   
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -195,6 +189,7 @@ class ToDoListViewController : UITableViewController {
     }
     
     func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
+        
         hexcolor = selectedCategory?.hexColor ?? "1D9BF6"
         let categoryPredicate = NSPredicate(format: "parentCatogeries.name Matches %@", (selectedCategory!.name!))
         if let additionalPredicate = predicate {
@@ -231,10 +226,3 @@ extension ToDoListViewController : UISearchBarDelegate {
         }
     }
 }
-
-
-
-// override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//self.view.endEditing(true)
-//resignFirstResponder()
-//}

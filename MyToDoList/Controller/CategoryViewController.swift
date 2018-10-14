@@ -71,6 +71,7 @@ class CategoryViewController: UITableViewController {
         let action = UIAlertAction(title: "add Category", style: .default) {(action) in
             let newCategory = Catogries(context: self.context)
             newCategory.name = textField.text!
+            
             newCategory.hexColor = UIColor.randomFlat.hexValue()
             self.categoryArray.append(newCategory)
             
