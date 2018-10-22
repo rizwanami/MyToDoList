@@ -12,7 +12,7 @@ import ChameleonFramework
 class CategoryViewController: UITableViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryArray = [Catogries]()
-    
+    var childView = ChildViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
@@ -35,10 +35,16 @@ class CategoryViewController: UITableViewController {
         performSegue(withIdentifier: "goToItems", sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! ToDoListViewController
+        if segue.identifier == "goToItems" {
+          let destinationVC = segue.destination as! ToDoListViewController
         if  let indexPath = tableView.indexPathForSelectedRow {
             destinationVC.selectedCategory = categoryArray[indexPath.row]
         }
+            
+        } else if segue.identifier == "addCategaory" {
+            segue.destination as! ChildViewController
+        }
+        
     }
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
@@ -64,6 +70,11 @@ class CategoryViewController: UITableViewController {
     }
     
     
+    @IBAction func childViewButton(_ sender: Any) {
+        //childViewSegue
+        performSegue(withIdentifier: "childViewSegue", sender: self)
+        print("nnnnnnnnnnnnnnnnnnn")
+    }
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
         
@@ -78,11 +89,14 @@ class CategoryViewController: UITableViewController {
             self.saveItem()
             self.tableView.reloadData()
         }
+        //alert.addChildViewController(childViewControllerContaining(self.childView))
+        
         
         alert.addTextField{(alertTextField) in
             alertTextField.placeholder = "add Category"
             textField = alertTextField
             
+            //alert.addChildViewController(viewIfLoaded)
         }
         alert.addAction(action)
         
