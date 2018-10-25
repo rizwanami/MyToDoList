@@ -40,13 +40,14 @@ class ToDoListViewController : UITableViewController {
         
         
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         updateNavigationController(withString: hexcolor)
-
-}
+        
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
-       
+        
         
         updateNavigationController(withString: "FFFDDB")
     }
@@ -62,12 +63,12 @@ class ToDoListViewController : UITableViewController {
             for task in tasks {
                 //title = task.title ?? "no title")
                 arrTaskList.append(task.title ?? "no title")
-    
+                
                 print("The array list \(arrTaskList)")
                 print("The list of title \(task.title ?? "no title")")
                 
             }
- 
+            
         } catch let error {
             print(error.localizedDescription)
         }
@@ -96,10 +97,7 @@ class ToDoListViewController : UITableViewController {
             
             newItem.parentCatogeries = self.selectedCategory
             self.itemArray.append(newItem)
-            
             self.saveItem()
-            
-            
             self.tableView.reloadData()
             
         }
@@ -107,7 +105,6 @@ class ToDoListViewController : UITableViewController {
         alert.addTextField{(alertTextField) in
             alertTextField.placeholder = "Add item"
             textField = alertTextField
-            
             
         }
         alert.addAction(action)
@@ -132,12 +129,14 @@ class ToDoListViewController : UITableViewController {
             searchBar.barTintColor = color
             
         }
+        
     }
     
-   
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoListCell", for: indexPath)
@@ -153,12 +152,15 @@ class ToDoListViewController : UITableViewController {
         print("cell for index path is called")
         return cell
     }
+    // Mark: - didSelectRowAt indexPath
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         saveItem()
         tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    // Mark: - editActionsForRowAt indexPath
+    
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
@@ -170,16 +172,45 @@ class ToDoListViewController : UITableViewController {
             
             
         }
-        let share = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
+        let edit = UITableViewRowAction(style: .default, title: "Edit") { (action, indexPath) in
             // share item at indexPath
+            self.performSegue(withIdentifier: "detailItem", sender: self)
+            func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+                if segue.identifier == "detailItem" {
+                    let destinationVC = segue.destination as! DetailItemViewController
+                    if  let indexPath = tableView.indexPathForSelectedRow {
+                        destinationVC.item = self.itemArray[indexPath.row]
+                        
+                        
+                    }
+                    
+                }
+            }
+            
+            //            let controller : DetailItemViewController
+            //            controller = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController") as!  DetailItemViewController
+            //            controller.item = self.itemArray[indexPath.row]
+            //            self.present(controller, animated: true, completion: nil)
+            
             print("I want to share: \(self.itemArray[indexPath.row])")
         }
-        share.backgroundColor = UIColor.lightGray
-        return [delete, share]
+        edit.backgroundColor = UIColor.lightGray
+        return [delete, edit]
         
     }
-   
- func saveItem() {
+    
+    
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        if segue.identifier == "detailItem" {
+    //             let destinationVC = segue.destination as! DetailItemViewController
+    //            if  let indexPath = tableView.indexPathForSelectedRow {
+    //                destinationVC.item = itemArray[indexPath.row] }
+    // }
+    //        }
+    
+    
+    // Mark: - saveItem
+    func saveItem() {
         do {
             
             try context.save()
@@ -187,7 +218,7 @@ class ToDoListViewController : UITableViewController {
             print("error encoding data: \(error)")
         }
     }
-    
+    // Mark: - loadItems
     func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
         
         hexcolor = selectedCategory?.hexColor ?? "1D9BF6"
