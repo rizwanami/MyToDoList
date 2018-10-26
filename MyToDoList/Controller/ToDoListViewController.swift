@@ -174,17 +174,9 @@ class ToDoListViewController : UITableViewController {
         }
         let edit = UITableViewRowAction(style: .default, title: "Edit") { (action, indexPath) in
             // share item at indexPath
-            self.performSegue(withIdentifier: "detailItem", sender: self)
-            func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-                if segue.identifier == "detailItem" {
-                    let destinationVC = segue.destination as! DetailItemViewController
-                    if  let indexPath = tableView.indexPathForSelectedRow {
-                        destinationVC.item = self.itemArray[indexPath.row]
-                        
-                        
-                    }
-                    
-                }
+            let item = self.itemArray[indexPath.row]
+            self.performSegue(withIdentifier: "detailItem", sender: item)
+            
             }
             
             //            let controller : DetailItemViewController
@@ -193,20 +185,20 @@ class ToDoListViewController : UITableViewController {
             //            self.present(controller, animated: true, completion: nil)
             
             print("I want to share: \(self.itemArray[indexPath.row])")
-        }
+        
         edit.backgroundColor = UIColor.lightGray
         return [delete, edit]
         
     }
     
     
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //        if segue.identifier == "detailItem" {
-    //             let destinationVC = segue.destination as! DetailItemViewController
-    //            if  let indexPath = tableView.indexPathForSelectedRow {
-    //                destinationVC.item = itemArray[indexPath.row] }
-    // }
-    //        }
+    
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "detailItem" {
+                 let destinationVC = segue.destination as! DetailItemViewController
+                destinationVC.item = sender as? Item
+     }
+            }
     
     
     // Mark: - saveItem

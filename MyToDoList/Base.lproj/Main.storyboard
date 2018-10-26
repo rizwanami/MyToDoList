@@ -33,11 +33,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="AddDailyActivity" id="0aa-Xb-5WV">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="MDW-rZ-T8N">
-                            <connections>
-                                <action selector="addButtonPressed:" destination="hdO-r1-nKZ" id="eAZ-3j-VMv"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="MDW-rZ-T8N">
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="hdO-r1-nKZ" id="eAZ-3j-VMv"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="save" id="D7E-aS-4K7">
+                                <connections>
+                                    <segue destination="wYA-jq-E4f" kind="presentation" id="USg-FN-gKz"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <segue destination="bxZ-or-OxS" kind="show" identifier="goToItems" id="vvd-72-3aC"/>
@@ -110,7 +117,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x4D-H6-ZG7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2094" y="-1404"/>
+            <point key="canvasLocation" x="2129" y="-1413"/>
         </scene>
         <!--Storyboard Reference-->
         <scene sceneID="7QL-Pv-QEw">
