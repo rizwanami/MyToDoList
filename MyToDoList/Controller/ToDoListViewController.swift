@@ -18,6 +18,7 @@ class ToDoListViewController : UITableViewController {
     var date = Date()
     var hexcolor = ""
     var itemArray = [Item]()
+  
     
     var selectedCategory : Catogries? {
         didSet{
@@ -43,6 +44,7 @@ class ToDoListViewController : UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         updateNavigationController(withString: hexcolor)
+        loadItems()
         
     }
     
@@ -175,6 +177,7 @@ class ToDoListViewController : UITableViewController {
         let edit = UITableViewRowAction(style: .default, title: "Edit") { (action, indexPath) in
             // share item at indexPath
             let item = self.itemArray[indexPath.row]
+           // self.item = item
             self.performSegue(withIdentifier: "detailItem", sender: item)
             
             }
@@ -203,6 +206,7 @@ class ToDoListViewController : UITableViewController {
     
     // Mark: - saveItem
     func saveItem() {
+    
         do {
             
             try context.save()
@@ -229,6 +233,7 @@ class ToDoListViewController : UITableViewController {
         tableView.reloadData()
         
     }
+    @IBAction func updateBtn(sender: UIButton) {}
 }
 // Mark: - SerchBar Method
 extension ToDoListViewController : UISearchBarDelegate {
