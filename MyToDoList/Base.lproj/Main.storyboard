@@ -167,7 +167,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchBar" destination="3s3-CQ-4mh" id="N1Y-rN-Sg0"/>
-                        <segue destination="FVC-Dg-xWJ" kind="show" identifier="detailItem" id="RHs-mt-hb1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lbz-x5-tgr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -184,23 +183,39 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wUb-MX-siQ">
-                                <rect key="frame" x="16" y="108" width="343" height="197"/>
+                                <rect key="frame" x="16" y="138" width="343" height="285"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <navigationBar contentMode="scaleToFill" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6kK-Ix-Wue">
+                                <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                                <items>
+                                    <navigationItem title="Title" id="Byf-Pz-7q0"/>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="wUb-MX-siQ" firstAttribute="top" secondItem="3Pg-mm-QLP" secondAttribute="top" constant="44" id="PdG-Ne-Uxk"/>
-                            <constraint firstItem="wUb-MX-siQ" firstAttribute="leading" secondItem="3Pg-mm-QLP" secondAttribute="leading" constant="16" id="QbY-0c-v0n"/>
-                            <constraint firstItem="3Pg-mm-QLP" firstAttribute="trailing" secondItem="wUb-MX-siQ" secondAttribute="trailing" constant="16" id="Yxh-7w-KnW"/>
-                            <constraint firstItem="3Pg-mm-QLP" firstAttribute="bottom" secondItem="wUb-MX-siQ" secondAttribute="bottom" constant="318" id="nzJ-GC-Zhj"/>
+                            <constraint firstItem="6kK-Ix-Wue" firstAttribute="top" secondItem="3eX-1A-UEL" secondAttribute="top" constant="20" id="3v6-6r-g9X">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="barPosition">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
+                            <constraint firstItem="wUb-MX-siQ" firstAttribute="leading" secondItem="3eX-1A-UEL" secondAttribute="leadingMargin" id="84z-iv-oUu"/>
+                            <constraint firstItem="6kK-Ix-Wue" firstAttribute="leading" secondItem="3Pg-mm-QLP" secondAttribute="leading" id="RVc-Mm-r14"/>
+                            <constraint firstItem="3Pg-mm-QLP" firstAttribute="bottom" secondItem="wUb-MX-siQ" secondAttribute="bottom" constant="244" id="Sty-Pf-wP6"/>
+                            <constraint firstItem="wUb-MX-siQ" firstAttribute="top" secondItem="3Pg-mm-QLP" secondAttribute="top" constant="118" id="jNd-w8-cav"/>
+                            <constraint firstItem="6kK-Ix-Wue" firstAttribute="centerX" secondItem="3Pg-mm-QLP" secondAttribute="centerX" id="ug3-g8-gQR"/>
+                            <constraint firstItem="wUb-MX-siQ" firstAttribute="trailing" secondItem="3eX-1A-UEL" secondAttribute="trailingMargin" id="umd-8H-o8b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3Pg-mm-QLP"/>
                     </view>
                     <connections>
+                        <outlet property="navBar" destination="6kK-Ix-Wue" id="fB2-le-3QZ"/>
                         <outlet property="textView" destination="wUb-MX-siQ" id="od2-HE-Pj5"/>
                     </connections>
                 </viewController>
