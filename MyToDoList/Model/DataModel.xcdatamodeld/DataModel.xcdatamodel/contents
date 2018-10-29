@@ -6,13 +6,24 @@
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Item" inverseName="parentCatogeries" inverseEntity="Item" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName=".Item" syncable="YES" codeGenerationType="class">
+        <attribute name="completionDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="done" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
         <relationship name="parentCatogeries" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Catogries" inverseName="items" inverseEntity="Catogries" syncable="YES"/>
+        <relationship name="photos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="parentItem" inverseEntity="Photo" syncable="YES"/>
+    </entity>
+    <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="parentItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="photos" inverseEntity="Item" syncable="YES"/>
     </entity>
     <elements>
         <element name="Catogries" positionX="-315" positionY="-90" width="128" height="90"/>
-        <element name="Item" positionX="-11" positionY="-16" width="128" height="105"/>
+        <element name="Item" positionX="-11" positionY="-16" width="128" height="180"/>
+        <element name="Photo" positionX="-162" positionY="0" width="128" height="90"/>
     </elements>
 </model>

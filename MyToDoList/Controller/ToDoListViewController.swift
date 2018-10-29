@@ -19,7 +19,6 @@ class ToDoListViewController : UITableViewController {
     var hexcolor = ""
     var itemArray = [Item]()
   
-    
     var selectedCategory : Catogries? {
         didSet{
             loadItems()
@@ -27,25 +26,22 @@ class ToDoListViewController : UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        //self.navigationItem.title = selectedCategory?.name
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
         navigationItem.rightBarButtonItems = [add, share]
         loadItems()
+        self.title = selectedCategory?.name
     }
-    override func viewWillLayoutSubviews() {
-        
-        navigationController?.navigationBar.topItem?.title = selectedCategory?.name ?? "Item"
-        
-        
-        
-        
-    }
+    
+//    override func viewWillLayoutSubviews() {
+//        navigationController?.navigationBar.topItem?.title = selectedCategory?.name ?? "Item"
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         updateNavigationController(withString: hexcolor)
         loadItems()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -53,6 +49,7 @@ class ToDoListViewController : UITableViewController {
         
         updateNavigationController(withString: "FFFDDB")
     }
+
     @objc func shareTapped(){
         let request : NSFetchRequest<Item> = Item.fetchRequest()
         var arrTaskList = [String]()
@@ -85,6 +82,7 @@ class ToDoListViewController : UITableViewController {
         present(activityVC, animated: true, completion: nil)
         
     }
+
     @objc func addTapped(){
         var textField = UITextField()
         let newItem = Item(context: self.context)
@@ -165,16 +163,28 @@ class ToDoListViewController : UITableViewController {
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
+        
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             // delete item at indexPath
+            let alert = UIAlertController(title: "Do you want to delete " + self.itemArray[indexPath.row].title! + "?", message: "", preferredStyle: .alert)
+            let myaction = UIAlertAction(title: "Delete", style: .default){(action) in
+            
             self.context.delete(self.itemArray[indexPath.row])
             self.itemArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             self.saveItem()
+            }
+            alert.addAction(myaction)
+            // Create Cancel button
+            let cancelAction = UIAlertAction(title: "No!", style: .cancel) { (action:UIAlertAction!) in
+                print("Cancel button tapped");
+            }
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
             
             
         }
-        let edit = UITableViewRowAction(style: .default, title: "Edit") { (action, indexPath) in
+        let edit = UITableViewRowAction(style: .default, title: "Add Note") { (action, indexPath) in
             // share item at indexPath
             let item = self.itemArray[indexPath.row]
            // self.item = item
