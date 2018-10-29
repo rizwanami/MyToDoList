@@ -188,14 +188,14 @@ class ToDoListViewController : UITableViewController {
             // share item at indexPath
             let item = self.itemArray[indexPath.row]
            // self.item = item
-            self.performSegue(withIdentifier: "detailItem", sender: item)
+            let controller : DetailItemViewController
+                        controller = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController") as!  DetailItemViewController
+                       controller.item = self.itemArray[indexPath.row]
+                       self.present(controller, animated: true, completion: nil)
             
             }
             
-            //            let controller : DetailItemViewController
-            //            controller = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController") as!  DetailItemViewController
-            //            controller.item = self.itemArray[indexPath.row]
-            //            self.present(controller, animated: true, completion: nil)
+        
             
             print("I want to share: \(self.itemArray[indexPath.row])")
         
@@ -205,14 +205,14 @@ class ToDoListViewController : UITableViewController {
     }
     
     
-    
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == "detailItem" {
-                 let destinationVC = segue.destination as! DetailItemViewController
-                destinationVC.item = sender as? Item
-     }
-            }
-    
+//    
+//        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//            if segue.identifier == "detailItem" {
+//                 let destinationVC = segue.destination as! DetailItemViewController
+//                destinationVC.item = sender as? Item
+//     }
+//            }
+//    
     
     // Mark: - saveItem
     func saveItem() {
