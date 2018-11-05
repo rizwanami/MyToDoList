@@ -11,23 +11,21 @@ import CoreData
 import ChameleonFramework
 
 class ToDoListViewController : UITableViewController {
-    
-    
     @IBOutlet weak var searchBar: UISearchBar!
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var date = Date()
     var hexcolor = ""
     var itemArray = [Item]()
-  
     var selectedCategory : Catogries? {
         didSet{
             loadItems()
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.navigationItem.title = selectedCategory?.name
-        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
         navigationItem.rightBarButtonItems = [add, share]
@@ -35,18 +33,12 @@ class ToDoListViewController : UITableViewController {
         self.title = selectedCategory?.name
     }
     
-//    override func viewWillLayoutSubviews() {
-//        navigationController?.navigationBar.topItem?.title = selectedCategory?.name ?? "Item"
-//    }
-    
     override func viewWillAppear(_ animated: Bool) {
         updateNavigationController(withString: hexcolor)
         loadItems()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
-        
         updateNavigationController(withString: "FFFDDB")
     }
 
@@ -82,7 +74,8 @@ class ToDoListViewController : UITableViewController {
         present(activityVC, animated: true, completion: nil)
         
     }
-
+    
+    //Add Item Action
     @objc func addTapped(){
         var textField = UITextField()
         let newItem = Item(context: self.context)
@@ -95,7 +88,7 @@ class ToDoListViewController : UITableViewController {
             
             newItem.setValue(self.date, forKey: "creationDate")
             
-            newItem.parentCatogeries = self.selectedCategory
+            newItem.parentCat = self.selectedCategory
             self.itemArray.append(newItem)
             self.saveItem()
             self.tableView.reloadData()
@@ -117,6 +110,7 @@ class ToDoListViewController : UITableViewController {
         
     }
     
+    
     func updateNavigationController(withString  hexyString : String){
         guard let navBar = navigationController?.navigationBar  else{
             fatalError("There is no Navigation bar ")
@@ -137,7 +131,7 @@ class ToDoListViewController : UITableViewController {
         return itemArray.count
     }
     
-    
+    //Load Data to Cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoListCell", for: indexPath)
         let item = itemArray[indexPath.row]
@@ -146,18 +140,42 @@ class ToDoListViewController : UITableViewController {
             cell.backgroundColor = color
             cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
             cell.textLabel?.text = item.title
-            cell.accessoryType = item.done ? .checkmark : .none
-            saveItem()
+            
+            if let btnChk = cell.contentView.viewWithTag(1) as? UIButton {
+                btnChk.addTarget(self, action: #selector(checkboxClicked(_ :)), for: .touchUpInside)
+                btnChk.tag = indexPath.row
+                if item.done {
+                   btnChk.isSelected = true
+                }
+            }
         }
-        print("cell for index path is called")
         return cell
     }
-    // Mark: - didSelectRowAt indexPath
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+    
+    //CheckBox Button Action
+    @objc func checkboxClicked(_ sender: UIButton) {
+        let item = itemArray[sender.tag]
+        sender.isSelected = !sender.isSelected
+        print(sender.isSelected)
+        if sender.isSelected{
+            item.setValue(true, forKey: "done")
+        } else if !sender.isSelected {
+            item.setValue(false, forKey: "done")
+        }
         saveItem()
-        tableView.reloadData()
-        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "detailItem", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailItem" {
+            let destinationVC = segue.destination as! DetailItemViewController
+            if  let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.item = itemArray[indexPath.row]
+            }
+        }
     }
     // Mark: - editActionsForRowAt indexPath
     
@@ -184,34 +202,13 @@ class ToDoListViewController : UITableViewController {
             
             
         }
-        let edit = UITableViewRowAction(style: .default, title: "Add Note") { (action, indexPath) in
-            // share item at indexPath
-            let item = self.itemArray[indexPath.row]
-           // self.item = item
-            self.performSegue(withIdentifier: "detailItem", sender: item)
-            
-            }
-            
-            //            let controller : DetailItemViewController
-            //            controller = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController") as!  DetailItemViewController
-            //            controller.item = self.itemArray[indexPath.row]
-            //            self.present(controller, animated: true, completion: nil)
-            
-            print("I want to share: \(self.itemArray[indexPath.row])")
-        
-        edit.backgroundColor = UIColor.lightGray
-        return [delete, edit]
+        return [delete]
         
     }
     
     
     
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == "detailItem" {
-                 let destinationVC = segue.destination as! DetailItemViewController
-                destinationVC.item = sender as? Item
-     }
-            }
+   
     
     
     // Mark: - saveItem
@@ -228,18 +225,23 @@ class ToDoListViewController : UITableViewController {
     func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
         
         hexcolor = selectedCategory?.hexColor ?? "1D9BF6"
-        let categoryPredicate = NSPredicate(format: "parentCatogeries.name Matches %@", (selectedCategory!.name!))
+        let categoryPredicate = NSPredicate(format: "parentCat IN %@", [selectedCategory!])
+        print("After Predicate.....")
         if let additionalPredicate = predicate {
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates : [categoryPredicate, additionalPredicate])
         }else {
-            
+            print("Assing Predicate....")
             request.predicate = categoryPredicate
         }
         do {
+            print("Fetching Item Array....")
             itemArray = try context.fetch(request)
+            print("Item Array Fetched.....")
         } catch {
             print("There is an error in fetchin request\(error)")
         }
+        print("Something Fecthed......123....")
+        print(itemArray.count)
         tableView.reloadData()
         
     }

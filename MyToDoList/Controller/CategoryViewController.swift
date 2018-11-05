@@ -13,6 +13,7 @@ class CategoryViewController: UITableViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categoryArray = [Catogries]()
     var childView = ChildViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = .none
@@ -23,6 +24,7 @@ class CategoryViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categoryArray.count
     }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "catogriesCell", for: indexPath)
@@ -72,11 +74,11 @@ class CategoryViewController: UITableViewController {
     }
     
     
-    @IBAction func childViewButton(_ sender: Any) {
-        //childViewSegue
-        performSegue(withIdentifier: "childViewSegue", sender: self)
-        print("nnnnnnnnnnnnnnnnnnn")
-    }
+//    @IBAction func childViewButton(_ sender: Any) {
+//        //childViewSegue
+//        performSegue(withIdentifier: "childViewSegue", sender: self)
+//        print("nnnnnnnnnnnnnnnnnnn")
+//    }
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
         

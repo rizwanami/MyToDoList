@@ -3,7 +3,7 @@
     <entity name="Catogries" representedClassName="Catogries" syncable="YES" codeGenerationType="class">
         <attribute name="hexColor" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Item" inverseName="parentCatogeries" inverseEntity="Item" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Item" inverseName="parentCat" inverseEntity="Item" syncable="YES"/>
     </entity>
     <entity name="Item" representedClassName=".Item" syncable="YES" codeGenerationType="class">
         <attribute name="completionDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -13,17 +13,24 @@
         <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
-        <relationship name="parentCatogeries" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Catogries" inverseName="items" inverseEntity="Catogries" syncable="YES"/>
+        <relationship name="parentCat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Catogries" inverseName="items" inverseEntity="Catogries" syncable="YES"/>
         <relationship name="photos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="parentItem" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
-        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="isDefault" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="parentItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Item" inverseName="photos" inverseEntity="Item" syncable="YES"/>
+        <relationship name="thumbs" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Thumbnail" inverseName="photo" inverseEntity="Thumbnail" syncable="YES"/>
+    </entity>
+    <entity name="Thumbnail" representedClassName="Thumbnail" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="thumbs" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <elements>
         <element name="Catogries" positionX="-315" positionY="-90" width="128" height="90"/>
-        <element name="Item" positionX="-11" positionY="-16" width="128" height="180"/>
-        <element name="Photo" positionX="-162" positionY="0" width="128" height="90"/>
+        <element name="Item" positionX="149.28125" positionY="-59.375" width="128" height="180"/>
+        <element name="Photo" positionX="-162" positionY="0" width="128" height="105"/>
+        <element name="Thumbnail" positionX="-192.03515625" positionY="189.79296875" width="128" height="90"/>
     </elements>
 </model>

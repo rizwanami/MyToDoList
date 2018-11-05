@@ -72,6 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+       
+         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         return container
     }()
     

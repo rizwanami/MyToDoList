@@ -119,14 +119,6 @@
             </objects>
             <point key="canvasLocation" x="2106" y="-2046"/>
         </scene>
-        <!--Storyboard Reference-->
-        <scene sceneID="7QL-Pv-QEw">
-            <objects>
-                <viewControllerPlaceholder id="w4N-f2-J0u" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aN7-Or-mDz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2050" y="-309"/>
-        </scene>
         <!--Items-->
         <scene sceneID="cqA-LE-xYN">
             <objects>
@@ -150,6 +142,14 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="B32-zS-DSi" id="aSm-hY-cy6">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhU-LW-tf4">
+                                            <rect key="frame" x="341" y="10" width="25" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" image="Checkmarkempty"/>
+                                            <state key="selected" image="Checkmark"/>
+                                        </button>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -163,12 +163,12 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchBar" destination="3s3-CQ-4mh" id="N1Y-rN-Sg0"/>
-                        <segue destination="FVC-Dg-xWJ" kind="show" identifier="detailItem" id="RHs-mt-hb1"/>
+                        <segue destination="FVC-Dg-xWJ" kind="show" identifier="detailItem" id="GcG-ky-cBl"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lbz-x5-tgr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="978" y="-1337"/>
+            <point key="canvasLocation" x="913" y="-1334"/>
         </scene>
         <!--Detail Item View Controller-->
         <scene sceneID="qHs-vb-kMc">
@@ -192,22 +192,40 @@
                                     <constraint firstAttribute="height" constant="261" id="w62-Z4-GwZ"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="s88-xJ-O1M">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="162" height="157"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="s4y-uB-CqG">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionCell" id="s4y-uB-CqG" customClass="DetailCollectionCell" customModule="MyToDoList" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="162" height="157"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="162" height="157"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hfx-MJ-0TU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="162" height="157"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.95750713832487311" green="0.94585051567355938" blue="0.90325271149380004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstItem="Hfx-MJ-0TU" firstAttribute="top" secondItem="s4y-uB-CqG" secondAttribute="top" id="48g-si-8x6"/>
+                                            <constraint firstItem="Hfx-MJ-0TU" firstAttribute="leading" secondItem="s4y-uB-CqG" secondAttribute="leading" id="4S7-ii-Mxh"/>
+                                            <constraint firstAttribute="trailing" secondItem="Hfx-MJ-0TU" secondAttribute="trailing" id="IcK-8P-om1"/>
+                                            <constraint firstAttribute="bottom" secondItem="Hfx-MJ-0TU" secondAttribute="bottom" id="jci-MF-kfZ"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="Hfx-MJ-0TU" id="JgR-C8-SEW"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="FVC-Dg-xWJ" id="Mat-BK-IRS"/>
+                                    <outlet property="delegate" destination="FVC-Dg-xWJ" id="RpG-PC-ORX"/>
+                                </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mj4-Qe-9SR">
                                 <rect key="frame" x="6" y="155" width="46" height="21"/>
@@ -252,11 +270,16 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="ic9-9K-QdP"/>
-                        <barButtonItem systemItem="camera" id="K9j-5Z-fqI"/>
+                        <barButtonItem systemItem="camera" id="K9j-5Z-fqI">
+                            <connections>
+                                <action selector="btnCamera:" destination="FVC-Dg-xWJ" id="sYe-dt-hQ0"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="M5e-S9-Sgr"/>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="cView" destination="OUm-tS-Zff" id="JPX-cj-vnI"/>
                         <outlet property="textView" destination="wUb-MX-siQ" id="od2-HE-Pj5"/>
                         <outlet property="txfItemTitle" destination="gTI-E9-jZk" id="wUt-4P-UEb"/>
                     </connections>
@@ -285,5 +308,9 @@
             <point key="canvasLocation" x="305" y="-1994"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Checkmark" width="30" height="30"/>
+        <image name="Checkmarkempty" width="30" height="30"/>
+    </resources>
     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
 </document>
