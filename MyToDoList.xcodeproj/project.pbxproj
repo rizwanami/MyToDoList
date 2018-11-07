@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		36CEA960218C9F4A0012FDBB /* CheckMark.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36CEA95F218C9F4A0012FDBB /* CheckMark.xcassets */; };
 		36CEA962218C9F590012FDBB /* CheckMarkEnpty1.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36CEA961218C9F590012FDBB /* CheckMarkEnpty1.xcassets */; };
 		36CEA964218CA6940012FDBB /* CheckMarkEnpty.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36CEA963218CA6920012FDBB /* CheckMarkEnpty.xcassets */; };
+		36CFC228219277F00044C6F9 /* ColumnFlowlayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */; };
+		36CFC22A219315330044C6F9 /* MosaicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC229219315330044C6F9 /* MosaicLayout.swift */; };
 		36DB6B1921702E6F003B280C /* Pods_MyToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36DB6B1821702E6F003B280C /* Pods_MyToDoList.framework */; };
 		36EA395D215BB8D5003B6833 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EA395C215BB8D5003B6833 /* CategoryViewController.swift */; };
 		36FA52A4214E96DC00059C7D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA52A3214E96DC00059C7D /* AppDelegate.swift */; };
@@ -29,6 +31,8 @@
 		36CEA95F218C9F4A0012FDBB /* CheckMark.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = CheckMark.xcassets; path = ../../../../Downloads/Archive/CheckMark.xcassets; sourceTree = "<group>"; };
 		36CEA961218C9F590012FDBB /* CheckMarkEnpty1.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = CheckMarkEnpty1.xcassets; path = ../../../../Downloads/Archive/CheckMarkEnpty1.xcassets; sourceTree = "<group>"; };
 		36CEA963218CA6920012FDBB /* CheckMarkEnpty.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = CheckMarkEnpty.xcassets; path = "../../../../Downloads/addCheckBoxonTable-Tutorial/addCheckBoxonTable-Tutorial/CheckMarkEnpty.xcassets"; sourceTree = "<group>"; };
+		36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowlayout.swift; sourceTree = "<group>"; };
+		36CFC229219315330044C6F9 /* MosaicLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicLayout.swift; sourceTree = "<group>"; };
 		36DB6B16217013AA003B280C /* Pods_MyToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_MyToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36DB6B1821702E6F003B280C /* Pods_MyToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_MyToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36EA395C215BB8D5003B6833 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 				36FA52A3214E96DC00059C7D /* AppDelegate.swift */,
 				36C99F4D21743410009B1C8D /* ChildViewController.swift */,
 				364D487A2182339B00FE721A /* DetailItemViewController.swift */,
+				36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */,
+				36CFC229219315330044C6F9 /* MosaicLayout.swift */,
 				36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */,
 			);
 			path = Controller;
@@ -165,7 +171,7 @@
 				};
 			};
 			buildConfigurationList = 36FA529B214E96DC00059C7D /* Build configuration list for PBXProject "MyToDoList" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -252,8 +258,10 @@
 				36EA395D215BB8D5003B6833 /* CategoryViewController.swift in Sources */,
 				36C99F4E21743410009B1C8D /* ChildViewController.swift in Sources */,
 				364D487B2182339B00FE721A /* DetailItemViewController.swift in Sources */,
+				36CFC22A219315330044C6F9 /* MosaicLayout.swift in Sources */,
 				C33251A62185240E00F3E227 /* DataModel.xcdatamodeld in Sources */,
 				36CEA95E218B90940012FDBB /* DetailCollectionCell.swift in Sources */,
+				36CFC228219277F00044C6F9 /* ColumnFlowlayout.swift in Sources */,
 				36FA52A6214E96DC00059C7D /* ToDoListViewController.swift in Sources */,
 				36FA52A4214E96DC00059C7D /* AppDelegate.swift in Sources */,
 			);

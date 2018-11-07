@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kP3-gA-k6C">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kP3-gA-k6C">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -173,60 +173,18 @@
         <!--Detail Item View Controller-->
         <scene sceneID="qHs-vb-kMc">
             <objects>
-                <viewController storyboardIdentifier="DetailItemViewController" id="FVC-Dg-xWJ" customClass="DetailItemViewController" customModule="MyToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailItemViewController" modalPresentationStyle="currentContext" id="FVC-Dg-xWJ" customClass="DetailItemViewController" customModule="MyToDoList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3eX-1A-UEL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wUb-MX-siQ">
-                                <rect key="frame" x="0.0" y="171" width="375" height="134"/>
+                                <rect key="frame" x="0.0" y="171" width="375" height="162"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OUm-tS-Zff">
-                                <rect key="frame" x="0.0" y="352" width="375" height="261"/>
-                                <color key="backgroundColor" red="1" green="0.98782607232390285" blue="0.94333783565729923" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="261" id="w62-Z4-GwZ"/>
-                                </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="s88-xJ-O1M">
-                                    <size key="itemSize" width="162" height="157"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionCell" id="s4y-uB-CqG" customClass="DetailCollectionCell" customModule="MyToDoList" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="162" height="157"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="162" height="157"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hfx-MJ-0TU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="162" height="157"/>
-                                                </imageView>
-                                            </subviews>
-                                        </view>
-                                        <color key="backgroundColor" red="0.95750713832487311" green="0.94585051567355938" blue="0.90325271149380004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <constraints>
-                                            <constraint firstItem="Hfx-MJ-0TU" firstAttribute="top" secondItem="s4y-uB-CqG" secondAttribute="top" id="48g-si-8x6"/>
-                                            <constraint firstItem="Hfx-MJ-0TU" firstAttribute="leading" secondItem="s4y-uB-CqG" secondAttribute="leading" id="4S7-ii-Mxh"/>
-                                            <constraint firstAttribute="trailing" secondItem="Hfx-MJ-0TU" secondAttribute="trailing" id="IcK-8P-om1"/>
-                                            <constraint firstAttribute="bottom" secondItem="Hfx-MJ-0TU" secondAttribute="bottom" id="jci-MF-kfZ"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="imageView" destination="Hfx-MJ-0TU" id="JgR-C8-SEW"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="FVC-Dg-xWJ" id="Mat-BK-IRS"/>
-                                    <outlet property="delegate" destination="FVC-Dg-xWJ" id="RpG-PC-ORX"/>
-                                </connections>
-                            </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mj4-Qe-9SR">
                                 <rect key="frame" x="6" y="155" width="46" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -240,29 +198,65 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snaps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JRV-e2-Xdx">
-                                <rect key="frame" x="6" y="313" width="51" height="21"/>
+                                <rect key="frame" x="6" y="341" width="51" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OUm-tS-Zff">
+                                <rect key="frame" x="0.0" y="362" width="375" height="261"/>
+                                <color key="backgroundColor" red="1" green="0.98782607232390285" blue="0.94333783565729923" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="261" id="w62-Z4-GwZ"/>
+                                </constraints>
+                                <collectionViewLayout key="collectionViewLayout" id="HgM-kR-NoP" customClass="ColumnFlowlayout" customModule="MyToDoList" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" reuseIdentifier="collectionCell" id="s4y-uB-CqG" customClass="DetailCollectionCell" customModule="MyToDoList" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hfx-MJ-0TU">
+                                                    <rect key="frame" x="4" y="0.0" width="120" height="120"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" red="0.95750713832487311" green="0.94585051567355938" blue="0.90325271149380004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstItem="Hfx-MJ-0TU" firstAttribute="top" secondItem="s4y-uB-CqG" secondAttribute="top" id="48g-si-8x6"/>
+                                            <constraint firstItem="Hfx-MJ-0TU" firstAttribute="leading" secondItem="s4y-uB-CqG" secondAttribute="leading" constant="4" id="4S7-ii-Mxh"/>
+                                            <constraint firstAttribute="trailing" secondItem="Hfx-MJ-0TU" secondAttribute="trailing" constant="-4" id="IcK-8P-om1"/>
+                                            <constraint firstAttribute="bottom" secondItem="Hfx-MJ-0TU" secondAttribute="bottom" id="jci-MF-kfZ"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="Hfx-MJ-0TU" id="JgR-C8-SEW"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="FVC-Dg-xWJ" id="Mat-BK-IRS"/>
+                                    <outlet property="delegate" destination="FVC-Dg-xWJ" id="RpG-PC-ORX"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="OUm-tS-Zff" firstAttribute="top" secondItem="JRV-e2-Xdx" secondAttribute="bottom" id="8Hk-DO-bNG"/>
+                            <constraint firstItem="3Pg-mm-QLP" firstAttribute="bottom" secondItem="OUm-tS-Zff" secondAttribute="bottom" id="8T5-Is-agg"/>
                             <constraint firstItem="Mj4-Qe-9SR" firstAttribute="leading" secondItem="3Pg-mm-QLP" secondAttribute="leading" constant="6" id="I48-EV-rhG"/>
                             <constraint firstItem="3Pg-mm-QLP" firstAttribute="trailing" secondItem="Mj4-Qe-9SR" secondAttribute="trailing" constant="323" id="OFT-qm-p5u"/>
                             <constraint firstItem="3Pg-mm-QLP" firstAttribute="trailing" secondItem="gTI-E9-jZk" secondAttribute="trailing" constant="10" id="PMi-J7-49S"/>
                             <constraint firstItem="JRV-e2-Xdx" firstAttribute="leading" secondItem="3Pg-mm-QLP" secondAttribute="leading" constant="6" id="QLT-CP-sCA"/>
                             <constraint firstItem="wUb-MX-siQ" firstAttribute="leading" secondItem="3Pg-mm-QLP" secondAttribute="leading" id="QbY-0c-v0n"/>
-                            <constraint firstItem="3Pg-mm-QLP" firstAttribute="bottom" secondItem="OUm-tS-Zff" secondAttribute="bottom" constant="10" id="Tgj-wi-PWQ"/>
+                            <constraint firstItem="OUm-tS-Zff" firstAttribute="trailing" secondItem="3Pg-mm-QLP" secondAttribute="trailing" id="YTm-x2-s5g"/>
                             <constraint firstItem="3Pg-mm-QLP" firstAttribute="trailing" secondItem="wUb-MX-siQ" secondAttribute="trailing" id="Yxh-7w-KnW"/>
                             <constraint firstItem="gTI-E9-jZk" firstAttribute="leading" secondItem="3Pg-mm-QLP" secondAttribute="leading" constant="7" id="bSd-Zn-IbO"/>
                             <constraint firstItem="gTI-E9-jZk" firstAttribute="top" secondItem="3Pg-mm-QLP" secondAttribute="top" constant="11" id="d6y-3b-qbj"/>
                             <constraint firstItem="wUb-MX-siQ" firstAttribute="top" secondItem="Mj4-Qe-9SR" secondAttribute="bottom" constant="-5" id="fRn-Xw-tOz"/>
-                            <constraint firstItem="OUm-tS-Zff" firstAttribute="top" secondItem="JRV-e2-Xdx" secondAttribute="bottom" constant="18" id="fdt-jK-cob"/>
-                            <constraint firstItem="OUm-tS-Zff" firstAttribute="trailing" secondItem="wUb-MX-siQ" secondAttribute="trailing" id="ifa-Yw-vOO"/>
+                            <constraint firstItem="OUm-tS-Zff" firstAttribute="leading" secondItem="3Pg-mm-QLP" secondAttribute="leading" id="hVq-mb-grY"/>
                             <constraint firstItem="Mj4-Qe-9SR" firstAttribute="top" secondItem="gTI-E9-jZk" secondAttribute="bottom" constant="4" id="izX-0x-84u"/>
-                            <constraint firstItem="OUm-tS-Zff" firstAttribute="top" secondItem="wUb-MX-siQ" secondAttribute="bottom" constant="47" id="jF5-I9-XvD"/>
-                            <constraint firstItem="OUm-tS-Zff" firstAttribute="leading" secondItem="wUb-MX-siQ" secondAttribute="leading" id="jjP-wi-Wl9"/>
                             <constraint firstItem="3Pg-mm-QLP" firstAttribute="trailing" secondItem="JRV-e2-Xdx" secondAttribute="trailing" constant="318" id="kHk-MO-5yF"/>
                             <constraint firstItem="JRV-e2-Xdx" firstAttribute="top" secondItem="wUb-MX-siQ" secondAttribute="bottom" constant="8" id="qEH-r5-RIj"/>
                         </constraints>

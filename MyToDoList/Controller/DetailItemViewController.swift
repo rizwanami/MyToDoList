@@ -22,8 +22,8 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
     //var item : Item!
     var notes = ""
     var photos = [Photo]()
-
-    
+    var image : UIImage!
+    let vc = UIImagePickerController()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var item :Item? {
         didSet{
@@ -34,22 +34,20 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
     @IBAction func btnCamera(_ sender: Any) {
         if checkPermission() {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100))
-                {
-                    let vc = UIImagePickerController()
-                    vc.delegate = self
-                    vc.sourceType = .photoLibrary
-                    vc.allowsEditing = false
-                    vc.modalPresentationStyle = .popover
                 
-                    let ppc = vc.popoverPresentationController
-                    ppc?.barButtonItem = sender as? UIBarButtonItem
-                    ppc?.permittedArrowDirections = .any
+                vc.delegate = self
+                vc.sourceType = .photoLibrary
+                vc.allowsEditing = false
                 
                 
-                    self.present(vc, animated: true, completion: nil)
-                    print("Image Picker finished ....")
-                }
+//                vc.modalPresentationStyle = .popover
+//
+//                let ppc = vc.popoverPresentationController
+//                ppc?.barButtonItem = sender as? UIBarButtonItem
+//                ppc?.permittedArrowDirections = .any
+                
+                self.present(vc, animated: true, completion: nil)
+                print("Image Picker finished ....")
             } else {
                 print("You don't have perm to view Photo")
             }
@@ -58,6 +56,10 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        cView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        cView.backgroundColor = UIColor.lightGray
+        cView.alwaysBounceVertical = true
 
         //Init the View
         txfItemTitle.text = item?.title
@@ -82,25 +84,20 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
         //Load Items
         
     }
-    
+    override func viewWillLayoutSubviews() {
+        loadItems()
+        cView.reloadData()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("Loading Items - In Viewwillappear")
+        loadItems()
+        cView.reloadData()
+    }
     
     //Save the Context before existing the Item Details
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-//        print("Inside viewWillDisapper.....")
-//        if self.isMovingFromParentViewController {
-//
-//            print("Saving.....")
-//            let request : NSFetchRequest<Item> = Item.fetchRequest()
-//            do {
-//                let manageObject = self.item
-//                manageObject?.setValue(self.textView.text, forKey: "notes")
-//                saveItem()
-//            } catch {
-//                print("Exception in ViewwilDisappear")
-//                print()
-//            }
-//        }
     }
     
     @objc func doneButtonAction() {
@@ -183,17 +180,19 @@ extension DetailItemViewController: UIImagePickerControllerDelegate   {
         print("It is cancelled.....:")
     }
     
-    private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        picker.dismiss(animated: true) {
-            print("The image is selecting....")
-            guard let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage? else {
-                print("No image found")
-                return
-            }
-            self.prepareImageForSaving(image: chosenImage)
-            print(chosenImage.size)
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        print("The image is selecting....")
+        guard let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage? else {
+            print("No image found")
+            
+            return
         }
+        self.image = chosenImage
+        self.prepareImageForSaving(image: chosenImage)
+        print(chosenImage.size)
+        
+        cView.reloadData()
+        dismiss(animated: true, completion: nil)
     }
     
     func prepareImageForSaving(image:UIImage) {
@@ -210,7 +209,7 @@ extension DetailItemViewController: UIImagePickerControllerDelegate   {
                 print("jpg error")
                 return
             }
-            
+        
             // scale image, I chose the size of the VC because it is easy
             let thumbnail = image
             
@@ -226,23 +225,24 @@ extension DetailItemViewController: UIImagePickerControllerDelegate   {
         }
     }
     func saveImage(imageData:NSData, thumbnailData:NSData, date: Double) {
+        print("Saving New Image....")
+        //set image data of fullres
+        let newPhoto = Photo(context: self.context)
+    
+        //self.item?.photos
+        newPhoto.image = imageData as Data
+        newPhoto.parentItem = self.item
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-            
-            //set image data of fullres
-            let newPhoto = Photo(context: self.context)
-            
-            newPhoto.image = imageData as Data
-            newPhoto.parentItem = self.item
-            let newThumbnail = Thumbnail(context: self.context)
-            newThumbnail.image = thumbnailData as Data
-            newThumbnail.photo = newPhoto
-            do {
-                try self.context.save()
-            } catch {
-                print("error encoding data: \(error)")
-            }
+        let newThumbnail = Thumbnail(context: self.context)
+        newThumbnail.image = thumbnailData as Data
+        newThumbnail.photo = newPhoto
+        
+        do {
+            try self.context.save()
+        } catch {
+            print("error encoding data: \(error)")
         }
+
     }
 }
 
@@ -251,7 +251,11 @@ extension DetailItemViewController : UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! DetailCollectionCell
         let cellImage = photoForIndexPath(indexPath: indexPath)
-        cell.imageView.image = UIImage(data: (cellImage.thumbs?.image)!)
+        if let validImage = UIImage(data: (cellImage.thumbs?.image)!) {
+            cell.imageView.image = validImage
+        } else {
+            print(cellImage.thumbs?.id)
+        }
         return cell
     }
     

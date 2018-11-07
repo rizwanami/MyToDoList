@@ -125,8 +125,23 @@ class ToDoListViewController : UITableViewController {
         }
         
     }
+    //CheckBox Button Action
+    @objc func checkboxClicked(_ sender: UIButton) {
+        let item = itemArray[sender.tag]
+        sender.isSelected = !sender.isSelected
+        print(sender.isSelected)
+        if sender.isSelected{
+            item.setValue(true, forKey: "done")
+        } else if !sender.isSelected {
+            item.setValue(false, forKey: "done")
+        }
+        saveItem()
+    }
     
-    
+@IBAction func updateBtn(sender: UIButton) {}
+}
+// Mark: -  TableViewDlegate
+extension ToDoListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -145,26 +160,17 @@ class ToDoListViewController : UITableViewController {
                 btnChk.addTarget(self, action: #selector(checkboxClicked(_ :)), for: .touchUpInside)
                 btnChk.tag = indexPath.row
                 if item.done {
-                   btnChk.isSelected = true
+                    btnChk.isSelected = true
                 }
             }
         }
         return cell
     }
     
-    //CheckBox Button Action
-    @objc func checkboxClicked(_ sender: UIButton) {
-        let item = itemArray[sender.tag]
-        sender.isSelected = !sender.isSelected
-        print(sender.isSelected)
-        if sender.isSelected{
-            item.setValue(true, forKey: "done")
-        } else if !sender.isSelected {
-            item.setValue(false, forKey: "done")
-        }
-        saveItem()
-    }
-    
+}
+
+// Mark:- TableViewDataSource
+extension ToDoListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.performSegue(withIdentifier: "detailItem", sender: self)
     }
@@ -186,11 +192,11 @@ class ToDoListViewController : UITableViewController {
             // delete item at indexPath
             let alert = UIAlertController(title: "Do you want to delete " + self.itemArray[indexPath.row].title! + "?", message: "", preferredStyle: .alert)
             let myaction = UIAlertAction(title: "Delete", style: .default){(action) in
-            
-            self.context.delete(self.itemArray[indexPath.row])
-            self.itemArray.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            self.saveItem()
+                
+                self.context.delete(self.itemArray[indexPath.row])
+                self.itemArray.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                self.saveItem()
             }
             alert.addAction(myaction)
             // Create Cancel button
@@ -206,14 +212,13 @@ class ToDoListViewController : UITableViewController {
         
     }
     
-    
-    
-   
-    
+}
+// Mark:- CoreData
+extension ToDoListViewController {
     
     // Mark: - saveItem
     func saveItem() {
-    
+        
         do {
             
             try context.save()
@@ -245,7 +250,7 @@ class ToDoListViewController : UITableViewController {
         tableView.reloadData()
         
     }
-    @IBAction func updateBtn(sender: UIButton) {}
+    
 }
 // Mark: - SerchBar Method
 extension ToDoListViewController : UISearchBarDelegate {

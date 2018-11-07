@@ -21,64 +21,6 @@ class CategoryViewController: UITableViewController {
         self.title = "Parchi Categories"
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryArray.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "catogriesCell", for: indexPath)
-        let category = categoryArray[indexPath.row]
-        cell.textLabel?.text = category.name
-        cell.backgroundColor = UIColor(hexString: categoryArray[indexPath.row].hexColor ?? "1D9BF6")
-        
-        return cell
-    }
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToItems", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToItems" {
-          let destinationVC = segue.destination as! ToDoListViewController
-        if  let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categoryArray[indexPath.row]
-        }
-            
-        } else if segue.identifier == "addCategaory" {
-            segue.destination as! ChildViewController
-        }
-        
-    }
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            // delete item at indexPath
-            self.context.delete(self.categoryArray[indexPath.row])
-            self.categoryArray.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            self.saveItem()
-            
-            
-        }
-        
-        let share = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
-            // share item at indexPath
-            print("I want to share: \(self.categoryArray[indexPath.row])")
-        }
-        
-        share.backgroundColor = UIColor.lightGray
-        
-        return [delete, share]
-        
-    }
-    
-    
-//    @IBAction func childViewButton(_ sender: Any) {
-//        //childViewSegue
-//        performSegue(withIdentifier: "childViewSegue", sender: self)
-//        print("nnnnnnnnnnnnnnnnnnn")
-//    }
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
         
@@ -112,7 +54,11 @@ class CategoryViewController: UITableViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
-    
+    //    @IBAction func childViewButton(_ sender: Any) {
+    //        //childViewSegue
+    //        performSegue(withIdentifier: "childViewSegue", sender: self)
+    //        print("nnnnnnnnnnnnnnnnnnn")
+    //    }
     func saveItem() {
         do {
             try context.save()
@@ -120,7 +66,7 @@ class CategoryViewController: UITableViewController {
             print("error encoding data: \(error)")
         }
     }
-    
+    // Mark - loadItem
     func loadItems(with request : NSFetchRequest<Catogries> = Catogries.fetchRequest()){
         do {
             categoryArray = try context.fetch(request)
@@ -131,3 +77,56 @@ class CategoryViewController: UITableViewController {
     
 }
 
+extension CategoryViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return categoryArray.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "catogriesCell", for: indexPath)
+        let category = categoryArray[indexPath.row]
+        cell.textLabel?.text = category.name
+        cell.backgroundColor = UIColor(hexString: categoryArray[indexPath.row].hexColor ?? "1D9BF6")
+        
+        return cell
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToItems", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToItems" {
+            let destinationVC = segue.destination as! ToDoListViewController
+            if  let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.selectedCategory = categoryArray[indexPath.row]
+            }
+            
+        } else if segue.identifier == "addCategaory" {
+            segue.destination as! ChildViewController
+        }
+        
+    }
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            // delete item at indexPath
+            self.context.delete(self.categoryArray[indexPath.row])
+            self.categoryArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.saveItem()
+            
+            
+        }
+        
+        let share = UITableViewRowAction(style: .default, title: "Share") { (action, indexPath) in
+            // share item at indexPath
+            print("I want to share: \(self.categoryArray[indexPath.row])")
+        }
+        
+        share.backgroundColor = UIColor.lightGray
+        
+        return [delete, share]
+        
+    }
+}
