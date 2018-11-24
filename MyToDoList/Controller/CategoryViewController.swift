@@ -87,8 +87,22 @@ extension CategoryViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "catogriesCell", for: indexPath)
         let category = categoryArray[indexPath.row]
         cell.textLabel?.text = category.name
-        cell.backgroundColor = UIColor(hexString: categoryArray[indexPath.row].hexColor ?? "1D9BF6")
         
+        //if (indexPath.row % 2 == 0) {
+        var tempColor = ColorSchemeOf(.analogous, color: .flatMagenta, isFlatScheme: true)
+        if (indexPath.row % 5 == 0) {
+            cell.backgroundColor = tempColor[4]
+        } else if (indexPath.row % 4 == 0) {
+            cell.backgroundColor = tempColor[3]
+        } else if (indexPath.row % 3 == 0) {
+            cell.backgroundColor = tempColor[2]
+        } else if (indexPath.row % 2 == 0) {
+            cell.backgroundColor = tempColor[1]
+        } else {
+            cell.backgroundColor = tempColor[0]
+        }
+        cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor as! UIColor, returnFlat: true)
+        cell.tintColor =  UIColor(hexString: "0400EB")
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

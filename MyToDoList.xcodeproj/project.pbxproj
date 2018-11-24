@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		364D487B2182339B00FE721A /* DetailItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364D487A2182339B00FE721A /* DetailItemViewController.swift */; };
+		365ED070219E857C0040F099 /* meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365ED06F219E857C0040F099 /* meme.swift */; };
+		36ABD5C821966A9500113307 /* DetailImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36ABD5C721966A9500113307 /* DetailImageViewController.swift */; };
 		36C99F4E21743410009B1C8D /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C99F4D21743410009B1C8D /* ChildViewController.swift */; };
 		36CEA95E218B90940012FDBB /* DetailCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */; };
 		36CEA960218C9F4A0012FDBB /* CheckMark.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36CEA95F218C9F4A0012FDBB /* CheckMark.xcassets */; };
@@ -28,6 +30,8 @@
 
 /* Begin PBXFileReference section */
 		364D487A2182339B00FE721A /* DetailItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemViewController.swift; sourceTree = "<group>"; };
+		365ED06F219E857C0040F099 /* meme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = meme.swift; sourceTree = "<group>"; };
+		36ABD5C721966A9500113307 /* DetailImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageViewController.swift; sourceTree = "<group>"; };
 		36C99F4D21743410009B1C8D /* ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
 		36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionCell.swift; sourceTree = "<group>"; };
 		36CEA95F218C9F4A0012FDBB /* CheckMark.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = CheckMark.xcassets; path = ../../../../Downloads/Archive/CheckMark.xcassets; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 				36CFC22D2193A21B0044C6F9 /* MosaicLayout.swift */,
 				36CFC22C2193A21B0044C6F9 /* Utilities.swift */,
 				36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */,
+				36ABD5C721966A9500113307 /* DetailImageViewController.swift */,
+				365ED06F219E857C0040F099 /* meme.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -264,12 +270,14 @@
 				36EA395D215BB8D5003B6833 /* CategoryViewController.swift in Sources */,
 				36C99F4E21743410009B1C8D /* ChildViewController.swift in Sources */,
 				36CFC22F2193A21B0044C6F9 /* Utilities.swift in Sources */,
+				36ABD5C821966A9500113307 /* DetailImageViewController.swift in Sources */,
 				36CFC2302193A21B0044C6F9 /* MosaicLayout.swift in Sources */,
 				364D487B2182339B00FE721A /* DetailItemViewController.swift in Sources */,
 				C33251A62185240E00F3E227 /* DataModel.xcdatamodeld in Sources */,
 				36CFC22E2193A21B0044C6F9 /* MosaicCell.swift in Sources */,
 				36CEA95E218B90940012FDBB /* DetailCollectionCell.swift in Sources */,
 				36CFC228219277F00044C6F9 /* ColumnFlowlayout.swift in Sources */,
+				365ED070219E857C0040F099 /* meme.swift in Sources */,
 				36FA52A6214E96DC00059C7D /* ToDoListViewController.swift in Sources */,
 				36FA52A4214E96DC00059C7D /* AppDelegate.swift in Sources */,
 			);

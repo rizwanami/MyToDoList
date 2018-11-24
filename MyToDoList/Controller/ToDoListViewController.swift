@@ -8,10 +8,14 @@
 
 import UIKit
 import CoreData
+import EventKit
 import ChameleonFramework
+
 
 class ToDoListViewController : UITableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
+    let appDelegate = UIApplication.shared.delegate
+        as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var date = Date()
     var hexcolor = ""
@@ -140,6 +144,8 @@ class ToDoListViewController : UITableViewController {
     
 @IBAction func updateBtn(sender: UIButton) {}
 }
+func addReminder(_ sender: UIButton) {
+}
 // Mark: -  TableViewDlegate
 extension ToDoListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -150,7 +156,7 @@ extension ToDoListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoListCell", for: indexPath)
         let item = itemArray[indexPath.row]
-        if  let color  = UIColor(hexString: hexcolor)?.darken(byPercentage: CGFloat(indexPath.row) / ( CGFloat(itemArray.count) * (1.6))) {
+        if  let color  = UIColor.flatBlue.flatten().lighten(byPercentage: CGFloat(indexPath.row) / ( CGFloat(itemArray.count) * (1.6))) {
             cell.textLabel?.text = item.title
             cell.backgroundColor = color
             cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
@@ -164,6 +170,7 @@ extension ToDoListViewController {
                 }
             }
         }
+   
         return cell
     }
     
@@ -203,13 +210,63 @@ extension ToDoListViewController {
             let cancelAction = UIAlertAction(title: "No!", style: .cancel) { (action:UIAlertAction!) in
                 print("Cancel button tapped");
             }
+            
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
             
             
         }
-        return [delete]
+        let share = UITableViewRowAction(style: .default, title: "Add Reminder") { (action, indexPath) in
+            
+            
+            
+            if self.appDelegate.eventStore == nil {
+                self.appDelegate.eventStore = EKEventStore()
+                
+                self.appDelegate.eventStore?.requestAccess(
+                    to: EKEntityType.reminder, completion: {(granted, error) in
+                        if !granted {
+                            print("Access to store not granted")
+                            print(error?.localizedDescription)
+                        } else {
+                           self.createReminder()
+                            print("in the createReminder")
+                            print("Access granted")
+                        }
+                })
+                if (self.appDelegate.eventStore != nil) {
+                                self.createReminder()
+                              print("in the createReminder")
+                    }
+            
+            }
+            
+            // share item at indexPath
+           // print("I want to share: \(self.categoryArray[indexPath.row])")
+        }
         
+        share.backgroundColor = UIColor.blue
+        return [delete, share]
+        
+    }
+    func createReminder() {
+        
+        let reminder = EKReminder(eventStore: appDelegate.eventStore!)
+        
+        //reminder.title = reminderText.text!
+        reminder.calendar =
+            appDelegate.eventStore!.defaultCalendarForNewReminders()
+        //let date = myDatePicker.date
+        let alarm = EKAlarm(absoluteDate: date)
+        
+        reminder.addAlarm(alarm)
+        
+        do {
+            try appDelegate.eventStore?.save(reminder,
+                                             commit: true)
+        } catch let error {
+            print("Reminder failed with error \(error.localizedDescription)")
+        }
     }
     
 }
