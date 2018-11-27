@@ -12,9 +12,6 @@
 		36ABD5C821966A9500113307 /* DetailImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36ABD5C721966A9500113307 /* DetailImageViewController.swift */; };
 		36C99F4E21743410009B1C8D /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C99F4D21743410009B1C8D /* ChildViewController.swift */; };
 		36CEA95E218B90940012FDBB /* DetailCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */; };
-		36CEA960218C9F4A0012FDBB /* CheckMark.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36CEA95F218C9F4A0012FDBB /* CheckMark.xcassets */; };
-		36CEA962218C9F590012FDBB /* CheckMarkEnpty1.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36CEA961218C9F590012FDBB /* CheckMarkEnpty1.xcassets */; };
-		36CEA964218CA6940012FDBB /* CheckMarkEnpty.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36CEA963218CA6920012FDBB /* CheckMarkEnpty.xcassets */; };
 		36CFC228219277F00044C6F9 /* ColumnFlowlayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */; };
 		36CFC22E2193A21B0044C6F9 /* MosaicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC22B2193A21B0044C6F9 /* MosaicCell.swift */; };
 		36CFC22F2193A21B0044C6F9 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC22C2193A21B0044C6F9 /* Utilities.swift */; };
@@ -34,9 +31,6 @@
 		36ABD5C721966A9500113307 /* DetailImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageViewController.swift; sourceTree = "<group>"; };
 		36C99F4D21743410009B1C8D /* ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
 		36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionCell.swift; sourceTree = "<group>"; };
-		36CEA95F218C9F4A0012FDBB /* CheckMark.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = CheckMark.xcassets; path = ../../../../Downloads/Archive/CheckMark.xcassets; sourceTree = "<group>"; };
-		36CEA961218C9F590012FDBB /* CheckMarkEnpty1.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = CheckMarkEnpty1.xcassets; path = ../../../../Downloads/Archive/CheckMarkEnpty1.xcassets; sourceTree = "<group>"; };
-		36CEA963218CA6920012FDBB /* CheckMarkEnpty.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = CheckMarkEnpty.xcassets; path = "../../../../Downloads/addCheckBoxonTable-Tutorial/addCheckBoxonTable-Tutorial/CheckMarkEnpty.xcassets"; sourceTree = "<group>"; };
 		36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowlayout.swift; sourceTree = "<group>"; };
 		36CFC22B2193A21B0044C6F9 /* MosaicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MosaicCell.swift; path = ../../../../../Downloads/CustomizingCollectionViewLayouts/ImageFeed/Cells/MosaicCell.swift; sourceTree = "<group>"; };
 		36CFC22C2193A21B0044C6F9 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = ../../../../../Downloads/CustomizingCollectionViewLayouts/ImageFeed/Utilities/Utilities.swift; sourceTree = "<group>"; };
@@ -92,9 +86,6 @@
 				36FA52B7214E9EC100059C7D /* Controller */,
 				36FA52A7214E96DC00059C7D /* Main.storyboard */,
 				36FA52AA214E96DD00059C7D /* Assets.xcassets */,
-				36CEA961218C9F590012FDBB /* CheckMarkEnpty1.xcassets */,
-				36CEA963218CA6920012FDBB /* CheckMarkEnpty.xcassets */,
-				36CEA95F218C9F4A0012FDBB /* CheckMark.xcassets */,
 				36FA52AF214E96DD00059C7D /* Info.plist */,
 			);
 			path = MyToDoList;
@@ -205,11 +196,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36CEA962218C9F590012FDBB /* CheckMarkEnpty1.xcassets in Resources */,
 				36FA52AB214E96DD00059C7D /* Assets.xcassets in Resources */,
-				36CEA964218CA6940012FDBB /* CheckMarkEnpty.xcassets in Resources */,
 				36FA52A9214E96DC00059C7D /* Main.storyboard in Resources */,
-				36CEA960218C9F4A0012FDBB /* CheckMark.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

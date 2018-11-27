@@ -20,6 +20,9 @@ class ToDoListViewController : UITableViewController {
     var date = Date()
     var hexcolor = ""
     var itemArray = [Item]()
+    var reminder = [Reminder]()
+    let dateFormatter = DateFormatter()
+    let local = Locale.current
     var selectedCategory : Catogries? {
         didSet{
             loadItems()
@@ -28,6 +31,10 @@ class ToDoListViewController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.searchBar.barTintColor = UIColor.flatPowderBlue
+        searchBar.backgroundColor = UIColor.flatPowderBlue
+       
+        
         //self.navigationItem.title = selectedCategory?.name
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
@@ -38,12 +45,12 @@ class ToDoListViewController : UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        updateNavigationController(withString: hexcolor)
+        //updateNavigationController(withString: hexcolor)
         loadItems()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        updateNavigationController(withString: "FFFDDB")
+        //updateNavigationController(withString: "FFFDDB")
     }
 
     @objc func shareTapped(){
@@ -129,6 +136,7 @@ class ToDoListViewController : UITableViewController {
         }
         
     }
+  
     //CheckBox Button Action
     @objc func checkboxClicked(_ sender: UIButton) {
         let item = itemArray[sender.tag]
@@ -142,10 +150,9 @@ class ToDoListViewController : UITableViewController {
         saveItem()
     }
     
-@IBAction func updateBtn(sender: UIButton) {}
+    @IBAction func updateBtn(sender: UIButton) {}
 }
-func addReminder(_ sender: UIButton) {
-}
+
 // Mark: -  TableViewDlegate
 extension ToDoListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -156,20 +163,27 @@ extension ToDoListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoListCell", for: indexPath)
         let item = itemArray[indexPath.row]
-        if  let color  = UIColor.flatBlue.flatten().lighten(byPercentage: CGFloat(indexPath.row) / ( CGFloat(itemArray.count) * (1.6))) {
-            cell.textLabel?.text = item.title
-            cell.backgroundColor = color
-            cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
-            cell.textLabel?.text = item.title
+        
+        cell.textLabel?.text = item.title
+
+        var tempColor = [UIColor.flatBlue,UIColor.flatBlueDark]
+        if (indexPath.row % 2 == 0) {
+            cell.backgroundColor = tempColor[0]
+        } else {
+            cell.backgroundColor = tempColor[1]
+        }
+        cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor as! UIColor, returnFlat: true)
+        cell.tintColor =  UIColor(hexString: "0400EB")
+
             
-            if let btnChk = cell.contentView.viewWithTag(1) as? UIButton {
-                btnChk.addTarget(self, action: #selector(checkboxClicked(_ :)), for: .touchUpInside)
-                btnChk.tag = indexPath.row
-                if item.done {
-                    btnChk.isSelected = true
-                }
+        if let btnChk = cell.contentView.viewWithTag(1) as? UIButton {
+            btnChk.addTarget(self, action: #selector(checkboxClicked(_ :)), for: .touchUpInside)
+            btnChk.tag = indexPath.row
+            if item.done {
+                btnChk.isSelected = true
             }
         }
+        
    
         return cell
     }
@@ -216,59 +230,36 @@ extension ToDoListViewController {
             
             
         }
-        let share = UITableViewRowAction(style: .default, title: "Add Reminder") { (action, indexPath) in
-            
-            
-            
-            if self.appDelegate.eventStore == nil {
-                self.appDelegate.eventStore = EKEventStore()
-                
-                self.appDelegate.eventStore?.requestAccess(
-                    to: EKEntityType.reminder, completion: {(granted, error) in
-                        if !granted {
-                            print("Access to store not granted")
-                            print(error?.localizedDescription)
-                        } else {
-                           self.createReminder()
-                            print("in the createReminder")
-                            print("Access granted")
-                        }
-                })
-                if (self.appDelegate.eventStore != nil) {
-                                self.createReminder()
-                              print("in the createReminder")
-                    }
-            
-            }
-            
-            // share item at indexPath
-           // print("I want to share: \(self.categoryArray[indexPath.row])")
-        }
+       
         
-        share.backgroundColor = UIColor.blue
-        return [delete, share]
         
-    }
-    func createReminder() {
+        return [delete]
         
-        let reminder = EKReminder(eventStore: appDelegate.eventStore!)
-        
-        //reminder.title = reminderText.text!
-        reminder.calendar =
-            appDelegate.eventStore!.defaultCalendarForNewReminders()
-        //let date = myDatePicker.date
-        let alarm = EKAlarm(absoluteDate: date)
-        
-        reminder.addAlarm(alarm)
-        
-        do {
-            try appDelegate.eventStore?.save(reminder,
-                                             commit: true)
-        } catch let error {
-            print("Reminder failed with error \(error.localizedDescription)")
-        }
     }
     
+        
+        
+    
+//    func createReminder() {
+//
+//        let reminder = EKReminder(eventStore: appDelegate.eventStore!)
+//
+//        //reminder.title = reminderText.text!
+//        reminder.calendar =
+//            appDelegate.eventStore!.defaultCalendarForNewReminders()
+//        //let date = myDatePicker.date
+//        let alarm = EKAlarm(absoluteDate: date)
+//
+//        reminder.addAlarm(alarm)
+//
+//        do {
+//            try appDelegate.eventStore?.save(reminder,
+//                                             commit: true)
+//        } catch let error {
+//            print("Reminder failed with error \(error.localizedDescription)")
+//        }
+//    }
+//
 }
 // Mark:- CoreData
 extension ToDoListViewController {
@@ -290,6 +281,7 @@ extension ToDoListViewController {
         let categoryPredicate = NSPredicate(format: "parentCat IN %@", [selectedCategory!])
         print("After Predicate.....")
         if let additionalPredicate = predicate {
+            
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates : [categoryPredicate, additionalPredicate])
         }else {
             print("Assing Predicate....")
@@ -309,7 +301,7 @@ extension ToDoListViewController {
     }
     
 }
-// Mark: - SerchBar Method
+// Mark: - SearchBar Method
 extension ToDoListViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request : NSFetchRequest<Item> = Item.fetchRequest()

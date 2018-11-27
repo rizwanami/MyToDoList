@@ -11,6 +11,8 @@ import UIKit
 import CoreData
 import Foundation
 import Photos
+import ChameleonFramework
+
 
 
 class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigationControllerDelegate {
@@ -23,10 +25,7 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
     //var item : Item!
     var notes = ""
     var photos = [Photo]()
-    var yy = Photo()
-
-
-    var image1 : UIImage!
+    
     let vc = UIImagePickerController()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var item :Item? {
@@ -35,12 +34,12 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
         }
     }
     
+    
     @IBAction func btnCamera(_ sender: Any) {
         if checkPermission() {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 
                 vc.delegate = self
-                //vc.sourceType = .photoLibrary
                 vc.allowsEditing = false
                 
                 // Create the subMenu controller (using alertViewController)
@@ -51,26 +50,24 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
                 
                 // Create the photo selection related actions
                 if isPhotoLibrarayAvailable() {
-                    
                     let photoLibAction = UIAlertAction(title: "From Photos", style: UIAlertActionStyle.default) {
                         UIAlertAction in
                         self.vc.sourceType = .photoLibrary
                         self.present(self.vc, animated: true, completion: nil)
                        // self.loadImagePickerSource()
                     }
-                    
                     alertController.addAction(photoLibAction)
                 }
+                
                 if isSavedPhotosAlbumAvailable() {
-                    
                     let photoAlbumAction = UIAlertAction(title: "From Album", style: UIAlertActionStyle.default) {
                         UIAlertAction in
                         self.vc.sourceType = .savedPhotosAlbum
                         self.present(self.vc, animated: true, completion: nil)
                     }
-                    
                     alertController.addAction(photoAlbumAction)
                 }
+                
                 alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
                     UIAlertAction in return
                 })
@@ -83,50 +80,43 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Configure Collection View
         cView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         cView.backgroundColor = UIColor.lightGray
         cView.alwaysBounceVertical = true
-        
-        //Init the View
-        txfItemTitle.text = item?.title
-        textView.text = item?.notes
-        self.navigationController?.isToolbarHidden = false
-        textView.keyboardDismissMode = .interactive
-        self.title = "Edit Item"
+        cView.backgroundColor = UIColor.flatPowderBlue.lighten(byPercentage: 0.25)
+
         //Tool bar on top of Keyboard
         let toolbar:UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
-
         //create left side empty space so that done button set on right side
         let flexSpace = UIBarButtonItem(barButtonSystemItem:    .flexibleSpace, target: nil, action: nil)
         let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: Selector(("doneButtonAction")))
         toolbar.setItems([flexSpace, doneBtn], animated: false)
         toolbar.sizeToFit()
 
-        //setting toolbar as inputAccessoryView
-        textView.inputAccessoryView = toolbar
+        //Configure Title Text
+        txfItemTitle.text = item?.title
+        txfItemTitle.backgroundColor = UIColor.flatWhiteDark
+        txfItemTitle.textColor = UIColor.flatNavyBlue
         txfItemTitle.inputAccessoryView = toolbar
         
-        //Load Items
-        
-    }
-    override func viewWillLayoutSubviews() {
-        loadItems()
-        cView.reloadData()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        print("Loading Items - In Viewwillappear")
-//       loadItems()
-//       cView.reloadData()
-        
-    }
-    
-    //Save the Context before existing the Item Details
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
+        //Configure Notes (Text and Label) & Photo Label
+        textView.text = item?.notes
+        textView.keyboardDismissMode = .interactive
+        textviewLabel.backgroundColor = UIColor.flatBlueDark
+        textviewLabel.textColor = ContrastColorOf(textviewLabel.backgroundColor as! UIColor, returnFlat: true)
+        textView.backgroundColor = UIColor.flatWhiteDark.lighten(byPercentage: 0.25)
+        textView.inputAccessoryView = toolbar
+        collectionviewLabel.backgroundColor = UIColor.flatBlueDark
+        collectionviewLabel.textColor = ContrastColorOf(collectionviewLabel.backgroundColor as! UIColor, returnFlat: true)
+
+        //Configure View
+        self.navigationController?.isToolbarHidden = false
+        self.title = "Edit Item"
     }
     
+    
+    //Done Button Action
     @objc func doneButtonAction() {
         self.view.endEditing(true)
         item?.title = txfItemTitle.text
@@ -137,7 +127,6 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
     
     //Save Current Context
     func saveItem() {
-        
         do {
             try context.save()
             print("Item Saved")
@@ -145,6 +134,8 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
             print("error encoding data: \(error)")
         }
     }
+    
+    //Check Capabilities and Permissions
     func isCameraAvailable() -> Bool {
         return UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
     }
@@ -158,6 +149,7 @@ class DetailItemViewController: UIViewController, UITextViewDelegate, UINavigati
     }
 }
 
+//Collection View Implementations
 private extension DetailItemViewController {
     func photoForIndexPath(indexPath: IndexPath) -> Photo {
         return photos[(indexPath as IndexPath).row]
@@ -165,25 +157,18 @@ private extension DetailItemViewController {
     
     // Mark: - loadItems
     func loadItems(with request : NSFetchRequest<Photo> = Photo.fetchRequest(), predicate: NSPredicate? = nil){
-        
+        print("Loading Data in Local Array")
         let itemPredicate = NSPredicate(format: "parentItem IN %@", [item!])
         request.predicate = itemPredicate
         
         do {
-            print("Fetching Photo Array....")
             photos = try context.fetch(request)
-            print("Photo Array Fetched.....")
         } catch {
             print("There is an error in fetchin request\(error)")
         }
-        print("Something Fecthed......123....")
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)){
-            self.cView.reloadData()
-        }
-        print(photos.count)
-    }
 
-    
+        print("Number of Photos Fetched : \(photos.count)")
+    }
 }
 
 //Implement PhotoPicker Function
@@ -220,13 +205,8 @@ extension DetailItemViewController: UIImagePickerControllerDelegate   {
     }
     
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        print("The image is selecting....")
-        guard let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage? else {
-            print("No image found")
-            return
-        }
-        self.image1 = chosenImage
         
+        //Inner Functions for Image Prep
         func prepareImageForSaving(image: UIImage) {
             
             // use date as unique id
@@ -251,14 +231,12 @@ extension DetailItemViewController: UIImagePickerControllerDelegate   {
                     return
                 }
                 
-                // send to save function
-            saveImage(imageData: imageData as NSData, thumbnailData: thumbnailData as NSData, date: date)
+                saveImage(imageData: imageData as NSData, thumbnailData: thumbnailData as NSData, date: date)
                 
             }
         }
         
-
-prepareImageForSaving(image: chosenImage)
+        //Inner Functions for Saving Image
         func saveImage(imageData:NSData, thumbnailData:NSData, date: Double) {
             print("Saving New Image....")
             //set image data of fullres
@@ -274,72 +252,29 @@ prepareImageForSaving(image: chosenImage)
             
             do {
                 try self.context.save()
+                print("Image Saved......Loading Item")
+                self.loadItems()
+                print("Image Load Completed....Reloading cView")
+                self.cView.reloadData()
             } catch {
                 print("error encoding data: \(error)")
             }
-            
         }
-
        
-//        let controller = storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController") as! DetailItemViewController
-//        self.navigationController!.pushViewController(controller, animated: true)
-        dismiss(animated: true, completion: nil)
-        saveItem()
-        print(chosenImage.size)
-        loadItems()
-       // cView.reloadItems(at: cView.indexPathsForVisibleItems)
-        cView.reloadData()
+        print("The image is selecting....")
+        guard let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage? else {
+            print("No image found")
+            return
+        }
+        
+        //Save Selected Image to App Local Storage
+        // send to save function
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)){
+            print("Saving Image in main thread......")
+            prepareImageForSaving(image: chosenImage)
+            self.dismiss(animated: true, completion: nil)
+        }
     }
-    
-//    func prepareImageForSaving(image:UIImage) {
-//
-//        // use date as unique id
-//        let date : Double = NSDate().timeIntervalSince1970
-//
-//        // dispatch with gcd.
-//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-//            
-//            // create NSData from UIImage
-//            guard let imageData = UIImageJPEGRepresentation(image, 1) else {
-//                // handle failed conversion
-//                print("jpg error")
-//                return
-//            }
-//
-//            // scale image, I chose the size of the VC because it is easy
-//            let thumbnail = image
-//
-//            guard let thumbnailData  = UIImageJPEGRepresentation(thumbnail, 0.7) else {
-//                // handle failed conversion
-//                print("jpg error")
-//                return
-//            }
-//
-//            // send to save function
-//            self.saveImage(imageData: imageData as NSData, thumbnailData: thumbnailData as NSData, date: date)
-//            
-//        }
-//    }
-//    func saveImage(imageData:NSData, thumbnailData:NSData, date: Double) {
-//        print("Saving New Image....")
-//        //set image data of fullres
-//        let newPhoto = Photo(context: self.context)
-//    
-//        //self.item?.photos
-//        newPhoto.image = imageData as Data
-//        newPhoto.parentItem = self.item
-//
-//        let newThumbnail = Thumbnail(context: self.context)
-//        newThumbnail.image = thumbnailData as Data
-//        newThumbnail.photo = newPhoto
-//        
-//        do {
-//            try self.context.save()
-//        } catch {
-//            print("error encoding data: \(error)")
-//        }
-//
-//    }
 }
 
 // Mark - collectionView datasource and delegate method
@@ -354,17 +289,15 @@ extension DetailItemViewController : UICollectionViewDelegate, UICollectionViewD
         } else {
             print(cellImage.thumbs?.id)
         }
-      
-        
         return cell
     }
    
-
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("Photos in Collection: \(photos.count)")
         return photos.count
     }
 }
+
 // MarK: CollectionViewDataSource
 extension DetailItemViewController {
      func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -373,9 +306,10 @@ extension DetailItemViewController {
         controller.photo = photos[indexPath.row]
         self.navigationController!.pushViewController(controller, animated: true)
     }
+    
     func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
         let photo = photos[indexPath.row]
-    self.context.delete(photo)
+        self.context.delete(photo)
         photos.remove(at: indexPath.row)
         collectionView.deleteItems(at: [indexPath])
         saveItem()

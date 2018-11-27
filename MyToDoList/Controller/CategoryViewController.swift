@@ -16,9 +16,13 @@ class CategoryViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.rowHeight = 40
         loadItems()
         self.title = "Parchi Categories"
+        self.navigationController!.navigationBar.barTintColor = UIColor.flatPowderBlue
+         self.navigationController!.navigationBar.backgroundColor = UIColor.flatPowderBlue
+        
     }
     
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -35,14 +39,13 @@ class CategoryViewController: UITableViewController {
             self.saveItem()
             self.tableView.reloadData()
         }
-        //alert.addChildViewController(childViewControllerContaining(self.childView))
-        
+       
         
         alert.addTextField{(alertTextField) in
             alertTextField.placeholder = "add Category"
             textField = alertTextField
             
-            //alert.addChildViewController(viewIfLoaded)
+            
         }
         alert.addAction(action)
         
@@ -54,11 +57,7 @@ class CategoryViewController: UITableViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
-    //    @IBAction func childViewButton(_ sender: Any) {
-    //        //childViewSegue
-    //        performSegue(withIdentifier: "childViewSegue", sender: self)
-    //        print("nnnnnnnnnnnnnnnnnnn")
-    //    }
+    
     func saveItem() {
         do {
             try context.save()
@@ -89,19 +88,14 @@ extension CategoryViewController {
         cell.textLabel?.text = category.name
         
         //if (indexPath.row % 2 == 0) {
-        var tempColor = ColorSchemeOf(.analogous, color: .flatMagenta, isFlatScheme: true)
-        if (indexPath.row % 5 == 0) {
-            cell.backgroundColor = tempColor[4]
-        } else if (indexPath.row % 4 == 0) {
-            cell.backgroundColor = tempColor[3]
-        } else if (indexPath.row % 3 == 0) {
-            cell.backgroundColor = tempColor[2]
-        } else if (indexPath.row % 2 == 0) {
-            cell.backgroundColor = tempColor[1]
-        } else {
+        var tempColor = [UIColor.flatBlue,UIColor.flatBlueDark]
+        if (indexPath.row % 2 == 0) {
             cell.backgroundColor = tempColor[0]
+        } else {
+            cell.backgroundColor = tempColor[1]
         }
         cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor as! UIColor, returnFlat: true)
+        cell.textLabel?.textAlignment = .center
         cell.tintColor =  UIColor(hexString: "0400EB")
         return cell
     }
