@@ -105,7 +105,7 @@ extension CategoryViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToItems" {
-            let destinationVC = segue.destination as! ToDoListViewController
+            let destinationVC = segue.destination as!ToDoListViewController
             if  let indexPath = tableView.indexPathForSelectedRow {
                 destinationVC.selectedCategory = categoryArray[indexPath.row]
             }
@@ -137,4 +137,8 @@ extension CategoryViewController {
         return [delete, share]
         
     }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
 }

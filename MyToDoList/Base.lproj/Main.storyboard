@@ -83,6 +83,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vEf-ZC-mv0"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="XeJ-pe-EfH"/>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="bottomTextfield" destination="tCU-2H-KGX" id="I8h-u7-5bM"/>
                         <outlet property="imageView" destination="ZPg-Um-u6T" id="uXQ-YV-QPH"/>
@@ -90,7 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OOF-pQ-wFC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1808.8" y="-9618.440779610195"/>
+            <point key="canvasLocation" x="1073" y="-9772"/>
         </scene>
         <!--Items-->
         <scene sceneID="cqA-LE-xYN">
@@ -118,9 +122,12 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhU-LW-tf4">
-                                            <rect key="frame" x="341" y="10" width="30" height="28"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhU-LW-tf4">
+                                            <rect key="frame" x="353" y="9" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="Ah2-w4-Fyg"/>
+                                                <constraint firstAttribute="height" constant="20" id="VJd-Dp-D7L"/>
+                                            </constraints>
                                             <state key="normal" image="greyUnCheckMark" backgroundImage="greyUnCheckMark">
                                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -128,6 +135,10 @@
                                             <state key="selected" image="greyCheckMark"/>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="FhU-LW-tf4" secondAttribute="trailing" constant="2" id="Oxt-on-CUz"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="FhU-LW-tf4" secondAttribute="bottom" constant="4" id="WPt-FJ-Mdn"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>

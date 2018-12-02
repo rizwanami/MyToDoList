@@ -13,6 +13,9 @@ import ChameleonFramework
 
 
 class ToDoListViewController : UITableViewController {
+    
+   
+    
     @IBOutlet weak var searchBar: UISearchBar!
     let appDelegate = UIApplication.shared.delegate
         as! AppDelegate
@@ -33,7 +36,8 @@ class ToDoListViewController : UITableViewController {
         super.viewDidLoad()
         self.searchBar.barTintColor = UIColor.flatPowderBlue
         searchBar.backgroundColor = UIColor.flatPowderBlue
-       
+        
+      // alterLayout()
         
         //self.navigationItem.title = selectedCategory?.name
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
@@ -188,6 +192,11 @@ extension ToDoListViewController {
         return cell
     }
     
+    
+
+    
+
+    
 }
 
 // Mark:- TableViewDataSource
@@ -236,30 +245,11 @@ extension ToDoListViewController {
         return [delete]
         
     }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
     
-        
-        
     
-//    func createReminder() {
-//
-//        let reminder = EKReminder(eventStore: appDelegate.eventStore!)
-//
-//        //reminder.title = reminderText.text!
-//        reminder.calendar =
-//            appDelegate.eventStore!.defaultCalendarForNewReminders()
-//        //let date = myDatePicker.date
-//        let alarm = EKAlarm(absoluteDate: date)
-//
-//        reminder.addAlarm(alarm)
-//
-//        do {
-//            try appDelegate.eventStore?.save(reminder,
-//                                             commit: true)
-//        } catch let error {
-//            print("Reminder failed with error \(error.localizedDescription)")
-//        }
-//    }
-//
 }
 // Mark:- CoreData
 extension ToDoListViewController {
@@ -319,4 +309,15 @@ extension ToDoListViewController : UISearchBarDelegate {
             }
         }
     }
+    func alterLayout() {
+    tableView.tableHeaderView = searchBar
+        // search bar in section header
+        tableView.estimatedSectionHeaderHeight = 50
+        // search bar in navigation bar
+        //navigationItem.leftBarButtonItem = UIBarButtonItem(customView: searchBar)
+        navigationItem.titleView = searchBar
+       // searchBar.showsScopeBar = false // you can show/hide this dependant on your layout
+        searchBar.placeholder = "Search Animal by Name"
+    }
+    
 }

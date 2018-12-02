@@ -24,7 +24,9 @@ class DetailImageViewController : UIViewController, UITextFieldDelegate, UIScrol
     
 
     override func viewDidLoad() {
-        
+        let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+        let canceled = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+        navigationItem.rightBarButtonItems = [canceled, share]
        
         photoimage = photo.image as! NSData
         imageView.image = UIImage(data:photoimage as Data,scale:1.0)
@@ -106,8 +108,64 @@ class DetailImageViewController : UIViewController, UITextFieldDelegate, UIScrol
         NotificationCenter.default.addObserver(self, selector: #selector(DetailImageViewController.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    @objc func shareTapped() {
+        let memedofImage = generateMemeImage()
+        let activityVC = UIActivityViewController(activityItems: [memedofImage],
+                                                  applicationActivities: nil)
+        
+        // Save image to shared
+        activityVC.completionWithItemsHandler = {
+            activity, completed, items, error in
+            if completed {
+                self.save()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        
+        
+       
+        
+        present(activityVC, animated: true, completion: nil)
+    }
+    // let activityVC = UIActivityViewController(
+//    activityItems: arrTaskList,
+//    applicationActivities: nil)
+//
+//    activityVC.popoverPresentationController?.sourceView = self.view
+//
+//    present(activityVC, animated: true, completion: nil)
+    
+    @objc func cancel() {
+        
+    }
+    
+    
+    
+    
+
    
 }
 
-    
+extension DetailImageViewController {
+    struct MemeMeObject {
+        //var top : String!
+        var bottom : String!
+        var image : UIImage!
+        var memedImage :UIImage!
+    }
+    func save() {
+        let meme = MemeMeObject(bottom: self.bottomTextfield.text!, image: self.imageView.image, memedImage:generateMemeImage())
+ 
+    }
+    func generateMemeImage()->UIImage {
+        
+       // BottomToolBar.isHidden = true
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+       // BottomToolBar.isHidden = false
+        return memedImage
+    }
+}
 
