@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 class DetailImageViewController : UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var imageView: UIImageView!
 //    @IBOutlet weak var topTextField: UITextField!
@@ -24,6 +25,8 @@ class DetailImageViewController : UIViewController, UITextFieldDelegate, UIScrol
     
 
     override func viewDidLoad() {
+//        scrollView.minimumZoomScale = 1.0
+//        scrollView.maximumZoomScale = 6.0
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         let canceled = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         navigationItem.rightBarButtonItems = [canceled, share]
@@ -42,7 +45,7 @@ class DetailImageViewController : UIViewController, UITextFieldDelegate, UIScrol
         toolbar.sizeToFit()
         bottomTextfield.inputAccessoryView = toolbar
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(addPinch(sender:)))
-        imageView.addGestureRecognizer(pinch)
+        //imageView.addGestureRecognizer(pinch)
 }
    
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +84,9 @@ class DetailImageViewController : UIViewController, UITextFieldDelegate, UIScrol
         if bottomTextfield.isFirstResponder {
             view.frame.origin.y = getKeyboardHeight(notification: notification) * (-1)
         }
+    }
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
     }
     
     //Testing the commit

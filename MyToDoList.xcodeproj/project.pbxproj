@@ -8,16 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		364D487B2182339B00FE721A /* DetailItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364D487A2182339B00FE721A /* DetailItemViewController.swift */; };
-		365ED070219E857C0040F099 /* meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365ED06F219E857C0040F099 /* meme.swift */; };
+		36547E4221D956770008CDD4 /* EditCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EE41D721D873F4009AF1D2 /* EditCategoryViewController.swift */; };
+		36547E4421D956D40008CDD4 /* CommonFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EE41D921D93711009AF1D2 /* CommonFunction.swift */; };
+		36788EA421BF701400FD04EF /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36788EA321BF701400FD04EF /* KeychainPasswordItem.swift */; };
+		368FD17521C038A000C0106B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368FD17421C038A000C0106B /* LoginViewController.swift */; };
 		36ABD5C821966A9500113307 /* DetailImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36ABD5C721966A9500113307 /* DetailImageViewController.swift */; };
-		36C99F4E21743410009B1C8D /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C99F4D21743410009B1C8D /* ChildViewController.swift */; };
+		36C99F4E21743410009B1C8D /* TBD-ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C99F4D21743410009B1C8D /* TBD-ChildViewController.swift */; };
 		36CEA95E218B90940012FDBB /* DetailCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */; };
 		36CFC228219277F00044C6F9 /* ColumnFlowlayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */; };
-		36CFC22E2193A21B0044C6F9 /* MosaicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC22B2193A21B0044C6F9 /* MosaicCell.swift */; };
 		36CFC22F2193A21B0044C6F9 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC22C2193A21B0044C6F9 /* Utilities.swift */; };
 		36CFC2302193A21B0044C6F9 /* MosaicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CFC22D2193A21B0044C6F9 /* MosaicLayout.swift */; };
+		36D4EEF221D5AAD70053373E /* DetailSecreteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D4EEF121D5AAD70053373E /* DetailSecreteViewController.swift */; };
 		36DB6B1921702E6F003B280C /* Pods_MyToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36DB6B1821702E6F003B280C /* Pods_MyToDoList.framework */; };
 		36EA395D215BB8D5003B6833 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EA395C215BB8D5003B6833 /* CategoryViewController.swift */; };
+		36EDBFBD21C9EEED005F4C25 /* DesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EDBFBC21C9EEED005F4C25 /* DesignViewController.swift */; };
+		36EDBFFF21CD7EEF005F4C25 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EDBFFE21CD7EEE005F4C25 /* SettingViewController.swift */; };
+		36F03A2321BDA3DB001ABD45 /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F03A2221BDA3DB001ABD45 /* AddCategoryViewController.swift */; };
 		36FA52A4214E96DC00059C7D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA52A3214E96DC00059C7D /* AppDelegate.swift */; };
 		36FA52A6214E96DC00059C7D /* ToDoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FA52A5214E96DC00059C7D /* ToDoListViewController.swift */; };
 		36FA52A9214E96DC00059C7D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36FA52A7214E96DC00059C7D /* Main.storyboard */; };
@@ -27,17 +33,24 @@
 
 /* Begin PBXFileReference section */
 		364D487A2182339B00FE721A /* DetailItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailItemViewController.swift; sourceTree = "<group>"; };
-		365ED06F219E857C0040F099 /* meme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = meme.swift; sourceTree = "<group>"; };
+		36788EA321BF701400FD04EF /* KeychainPasswordItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainPasswordItem.swift; sourceTree = "<group>"; };
+		368FD17421C038A000C0106B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		36ABD5C721966A9500113307 /* DetailImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageViewController.swift; sourceTree = "<group>"; };
-		36C99F4D21743410009B1C8D /* ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
+		36C99F4D21743410009B1C8D /* TBD-ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TBD-ChildViewController.swift"; sourceTree = "<group>"; };
 		36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionCell.swift; sourceTree = "<group>"; };
 		36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowlayout.swift; sourceTree = "<group>"; };
-		36CFC22B2193A21B0044C6F9 /* MosaicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MosaicCell.swift; path = ../../../../../Downloads/CustomizingCollectionViewLayouts/ImageFeed/Cells/MosaicCell.swift; sourceTree = "<group>"; };
-		36CFC22C2193A21B0044C6F9 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = ../../../../../Downloads/CustomizingCollectionViewLayouts/ImageFeed/Utilities/Utilities.swift; sourceTree = "<group>"; };
-		36CFC22D2193A21B0044C6F9 /* MosaicLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MosaicLayout.swift; path = ../../../../../Downloads/CustomizingCollectionViewLayouts/ImageFeed/Layouts/MosaicLayout.swift; sourceTree = "<group>"; };
+		36CFC22C2193A21B0044C6F9 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		36CFC22D2193A21B0044C6F9 /* MosaicLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MosaicLayout.swift; sourceTree = "<group>"; };
+		36D4EEF121D5AAD70053373E /* DetailSecreteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSecreteViewController.swift; sourceTree = "<group>"; };
 		36DB6B16217013AA003B280C /* Pods_MyToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_MyToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36DB6B1821702E6F003B280C /* Pods_MyToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_MyToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36EA395C215BB8D5003B6833 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		36EDBFBC21C9EEED005F4C25 /* DesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignViewController.swift; sourceTree = "<group>"; };
+		36EDBFFE21CD7EEE005F4C25 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		36EDC00321D295BE005F4C25 /* MosaicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicCell.swift; sourceTree = "<group>"; };
+		36EE41D721D873F4009AF1D2 /* EditCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryViewController.swift; sourceTree = "<group>"; };
+		36EE41D921D93711009AF1D2 /* CommonFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunction.swift; sourceTree = "<group>"; };
+		36F03A2221BDA3DB001ABD45 /* AddCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
 		36FA52A0214E96DC00059C7D /* MyToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36FA52A3214E96DC00059C7D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36FA52A5214E96DC00059C7D /* ToDoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewController.swift; sourceTree = "<group>"; };
@@ -61,6 +74,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36EDC00221D2958D005F4C25 /* PrototypeCell */ = {
+			isa = PBXGroup;
+			children = (
+				36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */,
+				36EDC00321D295BE005F4C25 /* MosaicCell.swift */,
+			);
+			path = PrototypeCell;
+			sourceTree = "<group>";
+		};
+		36EDC00421D29C22005F4C25 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				36CFC22C2193A21B0044C6F9 /* Utilities.swift */,
+				36788EA321BF701400FD04EF /* KeychainPasswordItem.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		36EDC00521D29C8E005F4C25 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				36EA395C215BB8D5003B6833 /* CategoryViewController.swift */,
+				36F03A2221BDA3DB001ABD45 /* AddCategoryViewController.swift */,
+				368FD17421C038A000C0106B /* LoginViewController.swift */,
+				36EDBFFE21CD7EEE005F4C25 /* SettingViewController.swift */,
+				36FA52A5214E96DC00059C7D /* ToDoListViewController.swift */,
+				364D487A2182339B00FE721A /* DetailItemViewController.swift */,
+				36D4EEF121D5AAD70053373E /* DetailSecreteViewController.swift */,
+				36EE41D721D873F4009AF1D2 /* EditCategoryViewController.swift */,
+				36ABD5C721966A9500113307 /* DetailImageViewController.swift */,
+				36EE41D921D93711009AF1D2 /* CommonFunction.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		36EDC00621D29CE9005F4C25 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				36FA52A7214E96DC00059C7D /* Main.storyboard */,
+				36FA52AA214E96DD00059C7D /* Assets.xcassets */,
+				36EDC00721D29D46005F4C25 /* Layout */,
+				36EDC00221D2958D005F4C25 /* PrototypeCell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		36EDC00721D29D46005F4C25 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				36EDBFBC21C9EEED005F4C25 /* DesignViewController.swift */,
+				36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */,
+				36CFC22D2193A21B0044C6F9 /* MosaicLayout.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
 		36FA5297214E96DC00059C7D = {
 			isa = PBXGroup;
 			children = (
@@ -82,10 +151,9 @@
 		36FA52A2214E96DC00059C7D /* MyToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				36EDC00621D29CE9005F4C25 /* View */,
 				36FA52B8214E9EDF00059C7D /* Model */,
 				36FA52B7214E9EC100059C7D /* Controller */,
-				36FA52A7214E96DC00059C7D /* Main.storyboard */,
-				36FA52AA214E96DD00059C7D /* Assets.xcassets */,
 				36FA52AF214E96DD00059C7D /* Info.plist */,
 			);
 			path = MyToDoList;
@@ -94,18 +162,10 @@
 		36FA52B7214E9EC100059C7D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				36EA395C215BB8D5003B6833 /* CategoryViewController.swift */,
-				36FA52A5214E96DC00059C7D /* ToDoListViewController.swift */,
+				36EDC00521D29C8E005F4C25 /* ViewController */,
+				36EDC00421D29C22005F4C25 /* Utils */,
 				36FA52A3214E96DC00059C7D /* AppDelegate.swift */,
-				36C99F4D21743410009B1C8D /* ChildViewController.swift */,
-				364D487A2182339B00FE721A /* DetailItemViewController.swift */,
-				36CFC227219277F00044C6F9 /* ColumnFlowlayout.swift */,
-				36CFC22B2193A21B0044C6F9 /* MosaicCell.swift */,
-				36CFC22D2193A21B0044C6F9 /* MosaicLayout.swift */,
-				36CFC22C2193A21B0044C6F9 /* Utilities.swift */,
-				36CEA95D218B90940012FDBB /* DetailCollectionCell.swift */,
-				36ABD5C721966A9500113307 /* DetailImageViewController.swift */,
-				365ED06F219E857C0040F099 /* meme.swift */,
+				36C99F4D21743410009B1C8D /* TBD-ChildViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -255,18 +315,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36547E4221D956770008CDD4 /* EditCategoryViewController.swift in Sources */,
 				36EA395D215BB8D5003B6833 /* CategoryViewController.swift in Sources */,
-				36C99F4E21743410009B1C8D /* ChildViewController.swift in Sources */,
+				36C99F4E21743410009B1C8D /* TBD-ChildViewController.swift in Sources */,
 				36CFC22F2193A21B0044C6F9 /* Utilities.swift in Sources */,
+				36D4EEF221D5AAD70053373E /* DetailSecreteViewController.swift in Sources */,
+				36788EA421BF701400FD04EF /* KeychainPasswordItem.swift in Sources */,
+				36547E4421D956D40008CDD4 /* CommonFunction.swift in Sources */,
+				36EDBFFF21CD7EEF005F4C25 /* SettingViewController.swift in Sources */,
 				36ABD5C821966A9500113307 /* DetailImageViewController.swift in Sources */,
+				36EDBFBD21C9EEED005F4C25 /* DesignViewController.swift in Sources */,
 				36CFC2302193A21B0044C6F9 /* MosaicLayout.swift in Sources */,
 				364D487B2182339B00FE721A /* DetailItemViewController.swift in Sources */,
 				C33251A62185240E00F3E227 /* DataModel.xcdatamodeld in Sources */,
-				36CFC22E2193A21B0044C6F9 /* MosaicCell.swift in Sources */,
 				36CEA95E218B90940012FDBB /* DetailCollectionCell.swift in Sources */,
 				36CFC228219277F00044C6F9 /* ColumnFlowlayout.swift in Sources */,
-				365ED070219E857C0040F099 /* meme.swift in Sources */,
+				368FD17521C038A000C0106B /* LoginViewController.swift in Sources */,
 				36FA52A6214E96DC00059C7D /* ToDoListViewController.swift in Sources */,
+				36F03A2321BDA3DB001ABD45 /* AddCategoryViewController.swift in Sources */,
 				36FA52A4214E96DC00059C7D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

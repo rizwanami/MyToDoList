@@ -14,7 +14,6 @@ import ChameleonFramework
 
 class ToDoListViewController : UITableViewController {
     
-   
     
     @IBOutlet weak var searchBar: UISearchBar!
     let appDelegate = UIApplication.shared.delegate
@@ -23,6 +22,7 @@ class ToDoListViewController : UITableViewController {
     var date = Date()
     var hexcolor = ""
     var itemArray = [Item]()
+    var item = Item()
     var reminder = [Reminder]()
     let dateFormatter = DateFormatter()
     let local = Locale.current
@@ -34,28 +34,57 @@ class ToDoListViewController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem()
+        loadItems()
+    }
+    
+    func navigationItem(){
         self.searchBar.barTintColor = UIColor.flatPowderBlue
         searchBar.backgroundColor = UIColor.flatPowderBlue
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+        let navView = UIView()
         
-      // alterLayout()
+        // Create the label
+        let label = UILabel()
+        label.text = selectedCategory?.name
+        label.sizeToFit()
+        label.center = navView.center
+        label.textAlignment = NSTextAlignment.center
         
-        //self.navigationItem.title = selectedCategory?.name
+        // Create the image view
+        let image = UIImageView()
+        if (selectedCategory?.isSecret)!{
+            image.image = UIImage(named: "blueLock")
+            // To maintain the image's aspect ratio:
+            let imageAspect = image.image!.size.width/image.image!.size.height
+            // Setting the image frame so that it's immediately before the text:
+            image.frame = CGRect(x: label.frame.origin.x-label.frame.size.height*imageAspect, y: label.frame.origin.y, width: label.frame.size.height*imageAspect, height: label.frame.size.height)
+            image.contentMode = UIViewContentMode.scaleAspectFit
+        } else {
+            image.image = UIImage(named: "blank")
+        }
+        
+        // Add both the label and image view to the navView
+        navView.addSubview(label)
+        navView.addSubview(image)
+        // Set the navigation bar's navigation item's titleView to the navView
+        self.navigationItem.titleView = navView
+        
+        // Set the navView's frame to fit within the titleView
+        navView.sizeToFit()
+        // alterLayout()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
         navigationItem.rightBarButtonItems = [add, share]
-        loadItems()
-        self.title = selectedCategory?.name
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //updateNavigationController(withString: hexcolor)
+        
         loadItems()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        //updateNavigationController(withString: "FFFDDB")
-    }
+    
 
     @objc func shareTapped(){
         let request : NSFetchRequest<Item> = Item.fetchRequest()
@@ -72,7 +101,6 @@ class ToDoListViewController : UITableViewController {
                 
                 print("The array list \(arrTaskList)")
                 print("The list of title \(task.title ?? "no title")")
-                
             }
             
         } catch let error {
@@ -87,7 +115,6 @@ class ToDoListViewController : UITableViewController {
         activityVC.popoverPresentationController?.sourceView = self.view
         
         present(activityVC, animated: true, completion: nil)
-        
     }
     
     //Add Item Action
@@ -95,7 +122,8 @@ class ToDoListViewController : UITableViewController {
         var textField = UITextField()
         let newItem = Item(context: self.context)
         let alert = UIAlertController(title: "Add new toDoList Item", message: "", preferredStyle: .alert)
-        let action = UIAlertAction(title: "add item", style: .default){(action) in
+        let action = UIAlertAction(title: "add item", style: .default){
+            (action) in
             newItem.title = textField.text!
             newItem.done = false
             
@@ -105,42 +133,26 @@ class ToDoListViewController : UITableViewController {
             
             newItem.parentCat = self.selectedCategory
             self.itemArray.append(newItem)
-            self.saveItem()
+            CommonFunction.singleton.saveItem()
             self.tableView.reloadData()
-            
         }
+        
         print("The date user enter the item is \(String(describing: newItem.creationDate))")
         alert.addTextField{(alertTextField) in
             alertTextField.placeholder = "Add item"
             textField = alertTextField
-            
         }
+        
         alert.addAction(action)
         // Create Cancel button
         let cancelAction = UIAlertAction(title: "No!", style: .cancel) { (action:UIAlertAction!) in
             print("Cancel button tapped");
         }
+        
         alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
-        
     }
     
-    
-    func updateNavigationController(withString  hexyString : String){
-        guard let navBar = navigationController?.navigationBar  else{
-            fatalError("There is no Navigation bar ")
-            
-        }
-        if let color =  UIColor(hexString: hexyString ) {
-            navBar.barTintColor = color
-            navBar.tintColor = ContrastColorOf(color, returnFlat: true)
-            navBar.largeTitleTextAttributes =  [NSAttributedStringKey.foregroundColor: ContrastColorOf(color, returnFlat: true)]
-            searchBar.barTintColor = color
-            
-        }
-        
-    }
-  
     //CheckBox Button Action
     @objc func checkboxClicked(_ sender: UIButton) {
         let item = itemArray[sender.tag]
@@ -151,7 +163,7 @@ class ToDoListViewController : UITableViewController {
         } else if !sender.isSelected {
             item.setValue(false, forKey: "done")
         }
-        saveItem()
+       CommonFunction.singleton.saveItem()
     }
     
     @IBAction func updateBtn(sender: UIButton) {}
@@ -183,36 +195,41 @@ extension ToDoListViewController {
         if let btnChk = cell.contentView.viewWithTag(1) as? UIButton {
             btnChk.addTarget(self, action: #selector(checkboxClicked(_ :)), for: .touchUpInside)
             btnChk.tag = indexPath.row
+            print("This is the value for btnChk.tag \(btnChk.tag)")
             if item.done {
                 btnChk.isSelected = true
             }
         }
-        
-   
         return cell
     }
-    
-    
-
-    
-
-    
 }
 
 // Mark:- TableViewDataSource
 extension ToDoListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "detailItem", sender: self)
+        if (selectedCategory?.isSecret)! {
+            self.performSegue(withIdentifier: "secretItemDetails", sender: self)
+        } else {
+            self.performSegue(withIdentifier: "detailItem", sender: self)
+        }
     }
-    
+    //SecretItemDetails
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailItem" {
             let destinationVC = segue.destination as! DetailItemViewController
             if  let indexPath = tableView.indexPathForSelectedRow {
                 destinationVC.item = itemArray[indexPath.row]
             }
+        } else if segue.identifier == "secretItemDetails" {
+            let destinationVC = segue.destination as!DetailSecreteViewController
+            if  let indexPath = tableView.indexPathForSelectedRow {
+                item = itemArray[indexPath.row]
+                destinationVC.item = item
+                print("This iitem in ListView\(item)")
+            }
         }
     }
+    
     // Mark: - editActionsForRowAt indexPath
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -226,7 +243,7 @@ extension ToDoListViewController {
                 self.context.delete(self.itemArray[indexPath.row])
                 self.itemArray.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
-                self.saveItem()
+               CommonFunction.singleton.saveItem()
             }
             alert.addAction(myaction)
             // Create Cancel button
@@ -255,19 +272,21 @@ extension ToDoListViewController {
 extension ToDoListViewController {
     
     // Mark: - saveItem
-    func saveItem() {
-        
-        do {
-            
-            try context.save()
-        } catch {
-            print("error encoding data: \(error)")
-        }
-    }
+//    func saveItem() {
+//
+//        do {
+//
+//            try context.save()
+//        } catch {
+//            print("error encoding data: \(error)")
+//        }
+//    }
     // Mark: - loadItems
     func loadItems(with request : NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil){
         
         hexcolor = selectedCategory?.hexColor ?? "1D9BF6"
+        
+        
         let categoryPredicate = NSPredicate(format: "parentCat IN %@", [selectedCategory!])
         print("After Predicate.....")
         if let additionalPredicate = predicate {
@@ -285,7 +304,7 @@ extension ToDoListViewController {
             print("There is an error in fetchin request\(error)")
         }
         print("Something Fecthed......123....")
-        print(itemArray.count)
+       // print(itemArray.count)
         tableView.reloadData()
         
     }
